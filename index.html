@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ruta San Marcos — Área C</title>
+<style>
+  :root{
+    --bg:#0d1420; --surface:#141d2c; --raised:#1c2738; --border:#2a3547;
+    --fg:#e8edf5; --muted:#8798ad; --primary:#d4a574; --primary-fg:#1a1208;
+    --ok:#4fb783; --bad:#e0745f;
+    --serif:Georgia,"Iowan Old Style","Palatino Linotype",serif;
+    --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    box-sizing:border-box;
+    padding-top:env(safe-area-inset-top,0px);
+    padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  html{scroll-padding-top:env(safe-area-inset-top,0px)}
+  body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);
+       -webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+  #app{max-width:560px;margin:0 auto;padding:0 0 56px}
+
+  header.top{background:var(--surface);border-bottom:1px solid #2a3547;padding:18px 18px 14px}
+  header.top h1{font-family:var(--serif);font-weight:400;font-size:25px;margin:0 0 4px;letter-spacing:-.01em}
+  header.top p{margin:0;font-size:12.5px;color:var(--muted)}
+  nav{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;margin:14px 18px 0;
+      background:var(--surface);border:1px solid #2a3547;border-radius:9px;padding:4px}
+  nav button{background:none;border:none;color:var(--muted);font:600 13.5px var(--sans);
+             padding:9px 4px;border-radius:6px;cursor:pointer}
+  nav button[aria-current="true"]{background:var(--raised);color:var(--fg)}
+  main{padding:18px}
+
+  h2{font-family:var(--serif);font-weight:400;font-size:20px;margin:0 0 8px}
+  p.lead{font-size:13.5px;color:var(--muted);margin:0 0 18px}
+  .card{background:var(--surface);border:1px solid #2a3547;border-radius:9px}
+  .note{background:var(--surface);border:1px solid #2a3547;border-radius:9px;
+        padding:14px;font-size:13.5px;color:var(--muted);margin-bottom:20px}
+  .note b{color:var(--primary);font-weight:600}
+
+  button.big,button.ghost{width:100%;text-align:left;border-radius:8px;cursor:pointer;
+        font-family:var(--sans);padding:14px 16px;margin-bottom:9px;font-size:14.5px;border:none}
+  button.big{background:var(--primary);color:var(--primary-fg);font-weight:600}
+  button.ghost{background:var(--surface);color:var(--fg);border:1px solid #2a3547;font-weight:600}
+  button.big small,button.ghost small{display:block;font-weight:400;font-size:11.5px;
+        margin-top:4px;opacity:.75}
+  button:disabled{opacity:.4;cursor:default}
+  button:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .chips button{background:var(--surface);border:1px solid #2a3547;color:var(--muted);
+        border-radius:999px;padding:7px 13px;font:600 12px var(--sans);cursor:pointer}
+  .chips button[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);
+        color:var(--primary-fg)}
+
+  ul.list{list-style:none;margin:0;padding:0}
+  ul.list li{margin-bottom:6px}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;
+       background:var(--surface);border:1px solid #2a3547;border-radius:8px;padding:12px 14px;
+       cursor:pointer;text-align:left;color:var(--fg);font-family:var(--sans)}
+  .row .nm{font-weight:600;font-size:14px}
+  .row .sub{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .row .pct{font-family:var(--serif);font-size:17px;font-variant-numeric:tabular-nums}
+
+  .qhead{display:flex;justify-content:space-between;align-items:center;gap:10px;
+         padding:9px 14px;border-bottom:1px solid #2a3547;font-size:11.5px;color:var(--muted)}
+  .qhead .n{font-family:var(--serif);font-size:16px;color:var(--fg)}
+  .passage{margin:0;padding:14px;font-size:14px;line-height:1.7;color:#cfd8e6;
+           text-align:justify;border-bottom:1px dashed #2a3547}
+  .stem{margin:0;padding:15px 14px 4px;font-family:var(--serif);font-size:17px;line-height:1.5;
+        white-space:pre-line}
+  .opts{list-style:none;margin:0;padding:4px 8px 12px}
+  .opt{display:flex;align-items:flex-start;gap:11px;width:100%;background:none;border:none;
+       border-top:1px solid rgba(135,152,173,.14);padding:11px 6px;cursor:pointer;
+       text-align:left;color:var(--fg);font-family:var(--sans)}
+  .opts li:first-child .opt{border-top:none}
+  .bub{flex:0 0 auto;width:27px;height:27px;border-radius:50%;border:1.5px solid var(--muted);
+       display:grid;place-items:center;font:600 12px var(--sans);color:var(--muted)}
+  .opt .tx{font-size:14px;line-height:1.5;padding-top:3px}
+  .opt[data-on] .bub{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+  .opt[data-st="right"] .bub{background:var(--ok);border-color:var(--ok);color:#08140e}
+  .opt[data-st="wrong"] .bub{background:var(--bad);border-color:var(--bad);color:#2a0c06}
+  .opt[data-st="key"] .bub{border-color:var(--ok);border-width:3px;color:var(--ok)}
+  .opt[data-st="right"] .tx,.opt[data-st="key"] .tx{color:var(--ok)}
+  .opt[data-st="wrong"] .tx{color:var(--bad)}
+
+  .why{border-left:3px solid var(--primary);background:var(--raised);border-radius:0 8px 8px 0;
+       padding:13px 14px;margin-top:14px}
+  .why .t{font-weight:600;font-size:14px;margin:0 0 6px}
+  .why p{margin:0;font-size:13.5px;line-height:1.6;color:var(--muted)}
+  .why .saved{margin-top:8px;font-size:12px;color:var(--primary)}
+
+  .bar{display:flex;gap:9px;margin-top:16px}
+  .bar button{margin:0}
+  .clock{font-family:var(--serif);font-size:19px;font-variant-numeric:tabular-nums;
+         background:var(--raised);border-radius:7px;padding:5px 11px}
+  .clock.hot{background:rgba(224,116,95,.2);color:var(--bad)}
+  .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+  .link{background:none;border:none;color:var(--muted);font:400 13.5px var(--sans);cursor:pointer;padding:0}
+
+  .score{background:var(--surface);border:1px solid #2a3547;border-radius:9px;padding:20px;margin-bottom:18px}
+  .score .lab{font:600 11.5px var(--sans);color:var(--primary);margin:0}
+  .score .big{font-family:var(--serif);font-size:48px;line-height:1;margin:6px 0 4px;
+              font-variant-numeric:tabular-nums}
+  .score .of{font-size:13px;color:var(--muted);margin:0}
+  .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px;text-align:center}
+  .grid3 div{background:var(--raised);border-radius:7px;padding:11px 4px}
+  .grid3 b{display:block;font-family:var(--serif);font-size:21px;font-weight:400}
+  .grid3 span{font-size:11px;color:var(--muted)}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin-bottom:18px}
+  th,td{text-align:left;padding:9px 4px;border-bottom:1px solid #2a3547}
+  th{font:600 11.5px var(--sans);color:var(--muted)}
+  td.r,th.r{text-align:right}
+  .empty{border:1px dashed #2a3547;border-radius:9px;padding:36px 18px;text-align:center;
+         color:var(--muted);font-family:var(--serif);font-style:italic;font-size:14.5px;line-height:1.6}
+  .err{border:1px solid #2a3547;border-radius:8px;background:var(--surface);margin-bottom:9px}
+  .err.pending{border-color:rgba(212,165,116,.45)}
+  .err>button{width:100%;background:none;border:none;text-align:left;padding:13px 14px;
+              cursor:pointer;color:var(--fg);font-family:var(--sans)}
+  .err .qt{font-size:13.5px;line-height:1.5}
+  .err .meta{font-size:11.5px;color:var(--muted);margin-top:5px}
+  .err .body{border-top:1px solid #2a3547;padding:13px 14px}
+  .err .body .k{font:600 11.5px var(--sans);color:var(--primary);margin:0 0 4px}
+  .err .body .k.ok{color:var(--ok)}
+  .err .body p{margin:0 0 11px;font-size:13.5px;line-height:1.6;color:var(--muted)}
+  .err .body p.fgtx{color:var(--fg)}
+  textarea{width:100%;background:var(--raised);border:1px solid #2a3547;border-radius:7px;
+           color:var(--fg);font:400 13.5px/1.6 var(--sans);padding:10px 11px;resize:vertical}
+  .mini{display:flex;flex-wrap:wrap;gap:8px;margin-top:11px}
+  .mini button{flex:0 0 auto;width:auto;margin:0;padding:10px 15px;font-size:13px;border-radius:7px}
+  .mini .okbtn{background:rgba(79,183,131,.14);border:1px solid rgba(79,183,131,.4);color:var(--ok)}
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><main><p class="empty">Cargando…</p></main></div>
+
+<script id="banco" type="application/json">{"SUBJECT_NAMES": {"lectora": "Comprensión lectora", "hlm": "Habilidad lógico-matemática", "aritmetica": "Aritmética", "algebra": "Álgebra", "geometria": "Geometría", "trigonometria": "Trigonometría", "fisica": "Física", "quimica": "Química", "lenguaje": "Lenguaje", "literatura": "Literatura", "historia": "Historia del Perú", "geografia": "Geografía", "economia": "Economía", "filosofia": "Filosofía", "psicologia": "Psicología", "civica": "Educación cívica"}, "LEVEL_NAMES": {"1": "Cimientos", "2": "Cuerpo del examen", "3": "Nivel examen real"}, "MOCK_PLAN": {"lectora": 3, "hlm": 5, "aritmetica": 3, "algebra": 4, "geometria": 3, "trigonometria": 2, "fisica": 6, "quimica": 3, "lenguaje": 3, "literatura": 1, "historia": 2, "geografia": 1, "economia": 1, "filosofia": 1, "psicologia": 1, "civica": 1}, "PASSAGES": {"P1": "Durante décadas, la electrificación del Perú se midió por kilómetros de red tendida. Esa métrica favorecía los valles y las ciudades, donde cada kilómetro alcanzaba a cientos de familias, y castigaba a los caseríos andinos dispersos, donde el mismo kilómetro llegaba apenas a una docena. El resultado fue una paradoja: el país sumaba cifras crecientes de cobertura mientras las comunidades más alejadas seguían sin un solo foco. Recién cuando el criterio cambió de kilómetros a hogares conectados, y luego a horas efectivas de servicio, la política eléctrica empezó a mirar lo que antes no contaba. Medir distinto no resolvió el problema por sí solo, pero volvió visible a quien la estadística había dejado fuera.", "P2": "La formación dual ha cambiado el orden clásico del aprendizaje técnico. En el modelo tradicional, el alumno pasaba dos años en aulas antes de pisar una planta, y llegaba al trabajo con teoría que nunca había visto funcionar. En el modelo dual alterna desde el inicio: aprende un procedimiento el lunes y lo aplica el miércoles con un instructor mirando. El efecto no es solo de rapidez. Quien ha visto fallar un circuito recuerda la fórmula de otra manera, porque la asocia a una consecuencia y no a una página. Los críticos advierten, con razón, que la empresa tiende a enseñar lo que necesita hoy y no lo que el técnico necesitará en diez años. Ese es el límite del modelo: forma muy bien para el puesto y algo menos para el oficio."}, "QUESTIONS": [{"id": "lec-1", "subject": "lectora", "level": 1, "topicId": "hv-1", "passage": "P1", "text": "El texto trata fundamentalmente sobre", "options": ["el retraso histórico de la electrificación andina", "cómo el indicador elegido determina a quién atiende una política", "la superioridad técnica de las redes urbanas", "el aumento sostenido de la cobertura eléctrica nacional", "la dispersión geográfica de los caseríos"], "r": 1, "why": "Pregunta de tema central: busca el eje que recorre todo el texto, no un dato suelto. Aquí el eje es que el criterio de medición decide a quién ve la política pública."}, {"id": "lec-2", "subject": "lectora", "level": 1, "topicId": "hv-1", "passage": "P1", "text": "En el texto, el término PARADOJA alude a", "options": ["un error de cálculo en las estadísticas oficiales", "la coexistencia de más cobertura con comunidades sin luz", "la oposición entre la costa y la sierra", "la imposibilidad de medir el servicio eléctrico", "una disputa entre técnicos y políticos"], "r": 1, "why": "Sentido contextual: la palabra se define por lo que la rodea. El texto mismo explica la paradoja en la línea siguiente."}, {"id": "lec-3", "subject": "lectora", "level": 1, "topicId": "hv-1", "passage": "P1", "text": "Se infiere del texto que un indicador mal elegido", "options": ["siempre exagera los logros del Estado", "puede ocultar a la población que más necesita el servicio", "impide técnicamente tender nuevas redes", "beneficia por igual a todas las regiones", "reemplaza la voluntad política"], "r": 1, "why": "Inferencia: no está escrito, pero se desprende. Si medir distinto volvió visible a quien estaba fuera, el indicador anterior lo ocultaba. Cuidado con los absolutos como «siempre»."}, {"id": "hlm-1", "subject": "hlm", "level": 1, "topicId": "hl-1", "text": "Halle el término que sigue: 2; 6; 12; 20; 30; …", "options": ["36", "40", "42", "46", "56"], "r": 2, "why": "Saca las diferencias: 4, 6, 8, 10. Crecen de dos en dos, así que la siguiente es 12 y el término es 30 + 12 = 42. La regla general es n² + n."}, {"id": "hlm-2", "subject": "hlm", "level": 1, "topicId": "hl-1", "text": "En una caja hay 8 fusibles buenos y 5 quemados, idénticos al tacto. ¿Cuántos se deben extraer como mínimo para tener la certeza de obtener 3 quemados?", "options": ["8", "9", "10", "11", "13"], "r": 3, "why": "«Certeza» siempre se resuelve con el peor caso posible: primero salen los 8 buenos y después 3 quemados. 8 + 3 = 11."}, {"id": "hlm-3", "subject": "hlm", "level": 1, "topicId": "hl-1", "text": "Las edades de dos hermanos suman 36 años. Hace 4 años el mayor tenía el triple de la edad del menor. ¿Cuántos años tiene hoy el mayor?", "options": ["22", "24", "25", "27", "28"], "r": 2, "why": "Mayor = x, menor = 36 − x. Hace 4 años: x − 4 = 3(32 − x). Resolviendo, 4x = 100 y x = 25. Verifica siempre: hace 4 años tenían 21 y 7."}, {"id": "hlm-4", "subject": "hlm", "level": 1, "topicId": "hl-1", "text": "En un edificio de 5 pisos viven A, B, C, D y E, uno por piso. A vive más arriba que B pero más abajo que C. D vive en el primer piso. E vive inmediatamente debajo de A. ¿Quién vive en el quinto piso?", "options": ["A", "B", "C", "D", "E"], "r": 2, "why": "Ordenamiento vertical: fija lo seguro (D en 1) y prueba posiciones para A. Solo funciona A en 4 con E en 3; entonces B queda en 2 y C en 5."}, {"id": "hlm-5", "subject": "hlm", "level": 1, "topicId": "hl-2", "text": "Un tanque se llena en 6 horas con el caño A y en 3 horas con el caño B. ¿En cuánto tiempo se llena con ambos abiertos?", "options": ["1,5 h", "2 h", "2,5 h", "3 h", "4,5 h"], "r": 1, "why": "Trabajo: no se suman tiempos, se suman rendimientos. 1/6 + 1/3 = 1/2 del tanque por hora, así que el tanque completo toma 2 horas."}, {"id": "hlm-6", "subject": "hlm", "level": 1, "topicId": "hl-2", "text": "El promedio de 5 números es 12. Si se agrega el número 18, el nuevo promedio es", "options": ["12", "12,5", "13", "14", "15"], "r": 2, "why": "Trabaja con la suma, no con el promedio: la suma era 5 × 12 = 60. Con 18 pasa a 78, entre 6 números da 13."}, {"id": "hlm-7", "subject": "hlm", "level": 1, "topicId": "hl-2", "text": "Si reparto 5 caramelos a cada niño me sobran 3, y si reparto 7 a cada uno me faltan 5. ¿Cuántos niños hay?", "options": ["3", "4", "5", "6", "8"], "r": 1, "why": "El total de caramelos es el mismo en los dos casos: 5n + 3 = 7n − 5. Luego 2n = 8 y n = 4 niños, con 23 caramelos."}, {"id": "hlm-8", "subject": "hlm", "level": 1, "topicId": "hl-2", "text": "Un obrero hace un trabajo en 12 días y otro en 6 días. Trabajando juntos lo terminarán en", "options": ["3 días", "4 días", "6 días", "9 días", "18 días"], "r": 1, "why": "1/12 + 1/6 = 3/12 = 1/4 del trabajo por día. El trabajo completo toma 4 días. Nota que el resultado es menor que el tiempo del más rápido."}, {"id": "ari-1", "subject": "aritmetica", "level": 1, "topicId": "ar-1", "text": "Calcule (2³)² ÷ 2⁴.", "options": ["2", "4", "8", "16", "32"], "r": 1, "why": "Potencia de potencia multiplica exponentes: (2³)² = 2⁶. Al dividir se restan: 2⁶ ÷ 2⁴ = 2² = 4."}, {"id": "ari-2", "subject": "aritmetica", "level": 1, "topicId": "ar-1", "text": "El valor de √0,16 es", "options": ["0,04", "0,4", "0,8", "1,6", "4"], "r": 1, "why": "0,16 = 16/100, cuya raíz es 4/10 = 0,4. Comprueba elevando al cuadrado: 0,4 × 0,4 = 0,16."}, {"id": "ari-3", "subject": "aritmetica", "level": 1, "topicId": "ar-2", "text": "Halle 2/3 + 3/4 − 1/2.", "options": ["5/12", "7/12", "11/12", "13/12", "1"], "r": 2, "why": "Común denominador 12: 8/12 + 9/12 − 6/12 = 11/12."}, {"id": "ari-4", "subject": "aritmetica", "level": 1, "topicId": "ar-3", "text": "Si el 15 % de un número es 45, ese número es", "options": ["150", "200", "270", "300", "675"], "r": 3, "why": "0,15 · x = 45, entonces x = 45 / 0,15 = 300. Atajo: si el 15 % es 45, el 5 % es 15 y el 100 % es 15 × 20 = 300."}, {"id": "ari-5", "subject": "aritmetica", "level": 1, "topicId": "ar-3", "text": "En un salón la razón de varones a mujeres es 4:5 y hay 45 estudiantes en total. ¿Cuántas mujeres hay?", "options": ["20", "25", "27", "30", "35"], "r": 1, "why": "Trabaja con la constante: varones 4k, mujeres 5k, total 9k = 45, luego k = 5. Mujeres = 5 · 5 = 25."}, {"id": "ari-6", "subject": "aritmetica", "level": 1, "topicId": "ar-3", "text": "Un precio sube 20 % y luego baja 20 %. Respecto del precio inicial, el final es", "options": ["igual", "4 % menor", "4 % mayor", "20 % menor", "40 % menor"], "r": 1, "why": "Los porcentajes se multiplican, no se suman: 1,20 × 0,80 = 0,96. El precio queda 4 % por debajo. Es una trampa clásica del examen."}, {"id": "ari-7", "subject": "aritmetica", "level": 1, "topicId": "ar-4", "text": "Si 6 obreros hacen una obra en 15 días, ¿en cuántos días la harán 9 obreros con el mismo rendimiento?", "options": ["8", "10", "12", "18", "22"], "r": 1, "why": "Magnitudes inversamente proporcionales: más obreros, menos días. 6 · 15 = 9 · x, de donde x = 10 días."}, {"id": "alg-1", "subject": "algebra", "level": 1, "topicId": "al-1", "text": "Desarrolle (x + 3)².", "options": ["x² + 9", "x² + 3x + 9", "x² + 6x + 9", "x² + 6x + 6", "x² − 6x + 9"], "r": 2, "why": "Trinomio cuadrado perfecto: cuadrado del primero, doble producto, cuadrado del segundo. El error típico es olvidar el 6x."}, {"id": "alg-2", "subject": "algebra", "level": 1, "topicId": "al-1", "text": "Si a + b = 7 y ab = 12, halle a² + b².", "options": ["13", "25", "37", "49", "61"], "r": 1, "why": "Identidad: a² + b² = (a + b)² − 2ab = 49 − 24 = 25. No necesitas hallar a y b por separado."}, {"id": "alg-3", "subject": "algebra", "level": 1, "topicId": "al-1", "text": "Si x + 1/x = 3, halle x² + 1/x².", "options": ["5", "6", "7", "8", "9"], "r": 2, "why": "Eleva al cuadrado la condición: (x + 1/x)² = x² + 2 + 1/x² = 9. Por lo tanto x² + 1/x² = 7."}, {"id": "alg-4", "subject": "algebra", "level": 1, "topicId": "al-2", "text": "Factorice x² − 9.", "options": ["(x − 3)²", "(x + 3)(x − 3)", "(x + 9)(x − 1)", "(x + 3)²", "x(x − 9)"], "r": 1, "why": "Diferencia de cuadrados: a² − b² = (a + b)(a − b). Reconocerla de inmediato ahorra mucho tiempo en el examen."}, {"id": "alg-5", "subject": "algebra", "level": 1, "topicId": "al-2", "text": "Simplifique (x² − 4)/(x + 2), con x ≠ −2.", "options": ["x − 2", "x + 2", "x² − 2", "−2", "x"], "r": 0, "why": "Factoriza el numerador como (x + 2)(x − 2) y cancela el factor común: queda x − 2."}, {"id": "alg-6", "subject": "algebra", "level": 1, "topicId": "al-3", "text": "Resuelva 3x − 7 = 2x + 5.", "options": ["−12", "2", "5", "10", "12"], "r": 4, "why": "Agrupa incógnitas a un lado: 3x − 2x = 5 + 7, luego x = 12."}, {"id": "alg-7", "subject": "algebra", "level": 1, "topicId": "al-3", "text": "Las raíces de x² − 7x + 12 = 0 son", "options": ["1 y 12", "2 y 6", "3 y 4", "−3 y −4", "2 y 5"], "r": 2, "why": "Busca dos números que sumen 7 y multipliquen 12: son 3 y 4, pues (x − 3)(x − 4) = 0."}, {"id": "alg-8", "subject": "algebra", "level": 1, "topicId": "al-3", "text": "La suma de las raíces de 2x² − 8x + 6 = 0 es", "options": ["2", "3", "4", "6", "8"], "r": 2, "why": "Por Cardano-Vieta, la suma es −b/a = 8/2 = 4 y el producto es c/a = 3. No hace falta resolver la ecuación."}, {"id": "geo-1", "subject": "geometria", "level": 1, "topicId": "ge-1", "text": "En un triángulo dos ángulos miden 47° y 68°. El tercero mide", "options": ["55°", "65°", "75°", "85°", "115°"], "r": 1, "why": "Los ángulos interiores de todo triángulo suman 180°: 180 − 47 − 68 = 65°."}, {"id": "geo-2", "subject": "geometria", "level": 1, "topicId": "ge-1", "text": "El número total de diagonales de un octágono es", "options": ["16", "18", "20", "24", "28"], "r": 2, "why": "Fórmula n(n − 3)/2, con n = 8: 8 · 5 / 2 = 20."}, {"id": "geo-3", "subject": "geometria", "level": 1, "topicId": "ge-1", "text": "Cada ángulo interior de un polígono regular de 12 lados mide", "options": ["120°", "135°", "144°", "150°", "160°"], "r": 3, "why": "La suma es (n − 2)·180° = 1800°. Al ser regular, se reparte entre 12: 150°."}, {"id": "geo-4", "subject": "geometria", "level": 1, "topicId": "ge-2", "text": "El área de un sector circular de 60° en un círculo de radio 6 es", "options": ["3π", "6π", "9π", "12π", "36π"], "r": 1, "why": "El sector es una fracción del círculo: (60/360) · π · 6² = (1/6) · 36π = 6π."}, {"id": "geo-5", "subject": "geometria", "level": 1, "topicId": "ge-2", "text": "La longitud de una circunferencia de diámetro 14 es (π ≈ 22/7)", "options": ["22", "44", "49", "88", "154"], "r": 1, "why": "L = πd = (22/7) · 14 = 44. Si te dieran el radio 14, la respuesta sería 88: lee bien el dato."}, {"id": "geo-6", "subject": "geometria", "level": 1, "topicId": "ge-2", "text": "En un triángulo rectángulo los catetos miden 6 y 8. La altura relativa a la hipotenusa mide", "options": ["4", "4,8", "5", "5,6", "6"], "r": 1, "why": "La hipotenusa es 10. Como el producto de los catetos iguala hipotenusa por altura: h = 6 · 8 / 10 = 4,8."}, {"id": "tri-1", "subject": "trigonometria", "level": 1, "topicId": "tr-1", "text": "Convierta 150° a radianes.", "options": ["2π/3", "3π/4", "5π/6", "5π/4", "7π/6"], "r": 2, "why": "Multiplica por π/180: 150 · π/180 = 5π/6."}, {"id": "tri-2", "subject": "trigonometria", "level": 1, "topicId": "tr-1", "text": "Si sen θ = 3/5 y θ es agudo, halle tan θ.", "options": ["3/4", "4/3", "4/5", "5/3", "5/4"], "r": 0, "why": "Triángulo 3-4-5: el cateto adyacente es 4, luego cos θ = 4/5 y tan θ = sen θ / cos θ = 3/4."}, {"id": "tri-3", "subject": "trigonometria", "level": 1, "topicId": "tr-1", "text": "El valor de sen 30° + cos 60° es", "options": ["0", "0,5", "1", "1,5", "√3"], "r": 2, "why": "Ambos valen 1/2, así que la suma es 1. Conviene tener memorizada la tabla de 30°, 45° y 60°."}, {"id": "tri-4", "subject": "trigonometria", "level": 1, "topicId": "tr-1", "text": "La expresión sen²x + cos²x equivale a", "options": ["0", "1", "2", "sen 2x", "tan x"], "r": 1, "why": "Identidad pitagórica fundamental: vale 1 para cualquier x. De ella salen las otras dos identidades pitagóricas."}, {"id": "fis-1", "subject": "fisica", "level": 1, "topicId": "fi-1", "text": "La ecuación dimensional de la velocidad es", "options": ["L", "LT⁻¹", "LT⁻²", "L²T⁻¹", "MLT⁻²"], "r": 1, "why": "Velocidad es longitud entre tiempo: LT⁻¹. LT⁻² es aceleración y MLT⁻² es fuerza."}, {"id": "fis-2", "subject": "fisica", "level": 1, "topicId": "fi-1", "text": "Exprese 0,00045 en notación científica.", "options": ["4,5 × 10⁻³", "4,5 × 10⁻⁴", "45 × 10⁻³", "4,5 × 10⁴", "0,45 × 10⁻³"], "r": 1, "why": "Corre la coma hasta dejar un dígito distinto de cero a la izquierda: son 4 lugares a la derecha, así que el exponente es −4."}, {"id": "fis-3", "subject": "fisica", "level": 1, "topicId": "fi-1", "text": "¿Cuál de las siguientes es una magnitud vectorial?", "options": ["masa", "tiempo", "temperatura", "fuerza", "trabajo"], "r": 3, "why": "La fuerza necesita módulo, dirección y sentido. El trabajo, aunque nace de la fuerza, es escalar."}, {"id": "fis-4", "subject": "fisica", "level": 1, "topicId": "fi-2", "text": "Un auto viaja a 72 km/h. Su velocidad en m/s es", "options": ["15", "18", "20", "25", "72"], "r": 2, "why": "Divide entre 3,6 para pasar de km/h a m/s: 72 / 3,6 = 20 m/s."}, {"id": "fis-5", "subject": "fisica", "level": 1, "topicId": "fi-2", "text": "Un móvil con MRU recorre 150 m en 10 s. Su velocidad es", "options": ["10 m/s", "15 m/s", "20 m/s", "150 m/s", "1 500 m/s"], "r": 1, "why": "En MRU la velocidad es constante: v = d/t = 150/10 = 15 m/s."}, {"id": "fis-6", "subject": "fisica", "level": 1, "topicId": "fi-2", "text": "Un móvil parte del reposo con aceleración constante de 2 m/s². ¿Qué distancia recorre en 5 s?", "options": ["10 m", "20 m", "25 m", "50 m", "100 m"], "r": 2, "why": "Con velocidad inicial cero, d = ½at² = ½ · 2 · 25 = 25 m. Si usaras d = vt obtendrías 50 y estaría mal."}, {"id": "fis-7", "subject": "fisica", "level": 1, "topicId": "fi-2", "text": "Un cuerpo se deja caer libremente. Con g = 10 m/s², su velocidad a los 3 s es", "options": ["12 m/s", "30 m/s", "40 m/s", "90 m/s", "120 m/s"], "r": 1, "why": "v = g·t = 30 m/s. La masa no aparece: en caída libre todos los cuerpos aceleran igual."}, {"id": "fis-8", "subject": "fisica", "level": 1, "topicId": "fi-3", "text": "Un bloque de 5 kg recibe una fuerza neta de 20 N. Su aceleración es", "options": ["0,25 m/s²", "4 m/s²", "15 m/s²", "25 m/s²", "100 m/s²"], "r": 1, "why": "Segunda ley de Newton: a = F/m = 20/5 = 4 m/s². Ojo: la fuerza debe ser la resultante, no una sola de las fuerzas."}, {"id": "fis-9", "subject": "fisica", "level": 1, "topicId": "fi-3", "text": "El peso de un cuerpo de 8 kg, con g = 10 m/s², es", "options": ["0,8 N", "8 N", "18 N", "80 N", "800 N"], "r": 3, "why": "W = m·g = 80 N. Masa y peso no son lo mismo: la masa se mide en kg y el peso es una fuerza, en newtons."}, {"id": "fis-10", "subject": "fisica", "level": 1, "topicId": "fi-4", "text": "El trabajo de una fuerza de 20 N que desplaza un cuerpo 5 m en la misma dirección de la fuerza es", "options": ["4 J", "25 J", "100 J", "400 J", "1 000 J"], "r": 2, "why": "W = F·d·cos θ, con θ = 0°: 20 · 5 · 1 = 100 J. Si la fuerza fuera perpendicular, el trabajo sería cero."}, {"id": "fis-11", "subject": "fisica", "level": 1, "topicId": "fi-4", "text": "La energía cinética de un cuerpo de 4 kg que se mueve a 5 m/s es", "options": ["10 J", "20 J", "50 J", "100 J", "200 J"], "r": 2, "why": "Ec = ½mv² = ½ · 4 · 25 = 50 J. La velocidad va al cuadrado: si se duplica, la energía se cuadruplica."}, {"id": "fis-12", "subject": "fisica", "level": 1, "topicId": "fi-4", "text": "Una máquina realiza 600 J de trabajo en 4 s. Su potencia es", "options": ["150 W", "300 W", "600 W", "1 200 W", "2 400 W"], "r": 0, "why": "P = W/t = 600/4 = 150 W. La potencia mide rapidez para hacer trabajo, no cantidad de trabajo."}, {"id": "fis-13", "subject": "fisica", "level": 1, "topicId": "fi-5", "text": "La ley de Ohm establece que", "options": ["V = I·R", "V = I/R", "I = V·R", "R = V·I", "P = V/I"], "r": 0, "why": "La tensión es el producto de la corriente por la resistencia. Esta la tienes de SENATI: es la misma que usas en el taller."}, {"id": "fis-14", "subject": "fisica", "level": 1, "topicId": "fi-5", "text": "Dos resistencias de 6 Ω y 3 Ω conectadas en paralelo equivalen a", "options": ["1 Ω", "2 Ω", "4,5 Ω", "9 Ω", "18 Ω"], "r": 1, "why": "En paralelo, Req = (6 · 3)/(6 + 3) = 2 Ω. Control rápido: la equivalente en paralelo siempre es menor que la resistencia más pequeña."}, {"id": "fis-15", "subject": "fisica", "level": 1, "topicId": "fi-5", "text": "Un resistor de 10 Ω se conecta a 220 V. La potencia que disipa es", "options": ["22 W", "484 W", "2 200 W", "4 840 W", "48 400 W"], "r": 3, "why": "P = V²/R = 220² / 10 = 4 840 W. También sale por I = V/R = 22 A y luego P = V·I."}, {"id": "qui-1", "subject": "quimica", "level": 1, "topicId": "qi-1", "text": "El número de protones del átomo de oxígeno (Z = 8) es", "options": ["6", "7", "8", "16", "18"], "r": 2, "why": "El número atómico Z es, por definición, la cantidad de protones del núcleo."}, {"id": "qui-2", "subject": "quimica", "level": 1, "topicId": "qi-1", "text": "En la molécula H₂SO₄, el estado de oxidación del azufre es", "options": ["+2", "+4", "+6", "−2", "0"], "r": 2, "why": "H aporta +1 cada uno (+2) y O aporta −2 cada uno (−8). Para que la molécula sea neutra, el azufre debe ser +6."}, {"id": "qui-3", "subject": "quimica", "level": 1, "topicId": "qi-1", "text": "La masa de 2 moles de agua (M = 18 g/mol) es", "options": ["9 g", "18 g", "20 g", "36 g", "40 g"], "r": 3, "why": "m = n · M = 2 · 18 = 36 g. El mol es solo un factor de conversión entre cantidad de partículas y gramos."}, {"id": "qui-4", "subject": "quimica", "level": 1, "topicId": "qi-1", "text": "Al balancear C₃H₈ + O₂ → CO₂ + H₂O, el coeficiente del O₂ es", "options": ["3", "4", "5", "6", "7"], "r": 2, "why": "Balancea C, luego H y al final O: C₃H₈ + 5 O₂ → 3 CO₂ + 4 H₂O. Hay 10 oxígenos a cada lado."}, {"id": "qui-5", "subject": "quimica", "level": 1, "topicId": "qi-1", "text": "El enlace que se forma entre un metal y un no metal por transferencia de electrones es el", "options": ["covalente polar", "covalente apolar", "iónico", "metálico", "puente de hidrógeno"], "r": 2, "why": "El metal cede electrones y el no metal los capta; los iones resultantes se atraen. En el covalente los electrones se comparten."}, {"id": "qui-6", "subject": "quimica", "level": 1, "topicId": "qi-1", "text": "El número de Avogadro es aproximadamente", "options": ["6,022 × 10²³", "6,022 × 10⁻²³", "1,602 × 10⁻¹⁹", "9,8 × 10²³", "3,14 × 10²³"], "r": 0, "why": "6,022 × 10²³ partículas por mol. El 1,602 × 10⁻¹⁹ C es la carga del electrón, un distractor frecuente."}, {"id": "len-1", "subject": "lenguaje", "level": 2, "topicId": "le-1", "text": "El lenguaje cumple, entre otras, las funciones representativa, expresiva y apelativa. Según ello, los enunciados «El cobre es un buen conductor eléctrico», «¡Qué alivio que llegaste!» y «Cierra el tablero, por favor» cumplen, respectivamente, las funciones", "options": ["expresiva, representativa y apelativa.", "representativa, expresiva y apelativa.", "apelativa, expresiva y representativa.", "representativa, apelativa y expresiva.", "expresiva, apelativa y representativa."], "r": 1, "why": "Resuélvelas una por una y descarta: la primera informa (representativa), la segunda manifiesta emoción (expresiva) y la tercera busca una reacción del receptor (apelativa). Basta acertar la primera para eliminar tres opciones."}, {"id": "len-2", "subject": "lenguaje", "level": 2, "topicId": "le-1", "text": "El dialecto estándar es la variedad que sigue la gramática normativa y se emplea en contextos formales. Considerando esto, elija la opción estructurada en dicho dialecto.", "options": ["Hubieron muchos postulantes en el aula.", "Le dijeron a los técnicos que esperen.", "El informe está muy pésimo.", "Varios estudiantes aprobaron el examen.", "Nos alegra de que leas obras peruanas."], "r": 3, "why": "Los cuatro distractores tienen un error clásico: «hubieron» impersonal (debe ser hubo), «le» por «les», «muy» con un superlativo absoluto y un «de» sobrante (dequeísmo)."}, {"id": "len-3", "subject": "lenguaje", "level": 2, "topicId": "le-2", "text": "En la lengua española las palabras se tildan según reglas generales y especiales. De acuerdo con ello, marque la alternativa con tildación adecuada.", "options": ["Ellos fuéron compañeros de aula.", "Sé que él confía en ti.", "Ví que no dejaba de reir.", "Hoy es su vigésimosegundo aniversario.", "Aún no sé sí vendrá mañana."], "r": 1, "why": "«Sé» (verbo) y «él» (pronombre) llevan tilde diacrítica; «ti» nunca la lleva. En los distractores: «fueron» es llana terminada en n, «vi» es monosílabo y «reír» lleva tilde por hiato, «vigesimosegundo» pierde la tilde del primer elemento y el «si» condicional no se tilda."}, {"id": "len-4", "subject": "lenguaje", "level": 2, "topicId": "le-2", "text": "El hiato es la secuencia de dos vocales que se pronuncian en sílabas distintas. Identifique la alternativa que presenta más hiatos.", "options": ["María leerá el poema de Noé.", "Luis cuidó la vía peligrosa.", "Ezequiel llegó tarde al teatro.", "Ana estudió ciencias sociales.", "Aún no cambió la rueda trasera."], "r": 0, "why": "Separa en sílabas antes de contar. En la primera hay cuatro hiatos: Ma-rí-a, le-e-rá, po-e-ma y No-é. Las demás traen uno o ninguno, porque «cuidó», «estudió» y «rueda» forman diptongo."}, {"id": "len-5", "subject": "lenguaje", "level": 3, "topicId": "le-1", "text": "La lengua española ha incorporado préstamos de otras lenguas. Relacione cada palabra subrayada con su procedencia.\nI. Guardó el dinero en su alcancía.\nII. Compramos choclo en el mercado.\nIII. Brindaremos con champán.\nIV. Descargó el software del equipo.\na. Anglicismo   b. Arabismo   c. Americanismo   d. Galicismo", "options": ["Ib, IIc, IIId, IVa", "Ic, IIb, IIIa, IVd", "Id, IIa, IIIc, IVb", "Ib, IIa, IIIc, IVd", "Ic, IId, IIIb, IVa"], "r": 0, "why": "En las de correlación ancla la que sabes con certeza y descarta. «Software» es inglés sin duda, así que IV debe ser a; eso ya elimina tres opciones. Alcancía viene del árabe, choclo del quechua y champán del francés."}, {"id": "len-6", "subject": "lenguaje", "level": 2, "topicId": "le-2", "text": "El uso de mayúsculas está normado por reglas ortográficas. Elija la opción que presenta empleo adecuado.\nI. Los domingos, Andrés lee el diario La República.\nII. El Sr. de la Cruz trabaja en la Victoria.\nIII. En el Perú, se celebra el Día del Trabajo.\nIV. Mi Tío viajó al Cusco en enero.", "options": ["I y II", "I y III", "II y IV", "III y IV", "I y IV"], "r": 1, "why": "Los días de la semana y los meses van en minúscula, y las festividades en mayúscula: I y III cumplen. En II «La Victoria» es nombre de distrito y necesita mayúscula; en IV «tío» es nombre común."}, {"id": "len-7", "subject": "lenguaje", "level": 2, "topicId": "le-3", "text": "En «Cuando el operario cortó la energía, el tablero quedó sin tensión», la proposición subordinada cumple función", "options": ["sustantiva.", "adjetiva.", "adverbial temporal.", "comparativa.", "consecutiva."], "r": 2, "why": "Pregúntale a la oración principal: «cuándo quedó sin tensión». La subordinada responde a esa circunstancia de tiempo, así que es adverbial temporal."}, {"id": "len-8", "subject": "lenguaje", "level": 3, "topicId": "le-2", "text": "El acento cumple función distintiva cuando diferencia el significado de palabras con las mismas letras. Marque la alternativa donde se presenta dicha función.", "options": ["Pedro salió muy temprano.", "Deposito el dinero en el banco.", "Bebió agua helada anoche.", "Escribió con aquel plumón.", "Liz entendió la explicación."], "r": 1, "why": "«Deposito», «depósito» y «depositó» son la misma secuencia de letras con tres acentos y tres significados distintos. En las demás no existe un par que se oponga solo por la posición del acento."}, {"id": "lit-1", "subject": "literatura", "level": 2, "topicId": "li-1", "text": "En Los ríos profundos, Ernesto crece partido entre el mundo quechua de los comuneros y el mundo criollo del internado religioso. Ese desgarramiento entre dos culturas es el rasgo central de la obra de", "options": ["Ciro Alegría.", "José María Arguedas.", "Manuel Scorza.", "Julio Ramón Ribeyro.", "Enrique López Albújar."], "r": 1, "why": "Arguedas vivió esa doble pertenencia y la convirtió en el eje de su narrativa. Es justamente lo que lo distingue de los otros indigenistas, que miran al indio desde afuera."}, {"id": "lit-2", "subject": "literatura", "level": 2, "topicId": "li-1", "text": "Ricardo Palma creó un género que combina el relato histórico con el habla coloquial limeña y la ironía. Dicho género se denomina", "options": ["leyenda.", "crónica.", "tradición.", "artículo de costumbres.", "estampa."], "r": 2, "why": "La tradición es creación de Palma y aporte peruano a las letras hispanoamericanas. El artículo de costumbres corresponde al costumbrismo de Pardo y Aliaga, anterior a él."}, {"id": "lit-3", "subject": "literatura", "level": 2, "topicId": "li-1", "text": "Relacione cada obra con su autor.\nI. El mundo es ancho y ajeno\nII. Los heraldos negros\nIII. La ciudad y los perros\nIV. El caballero Carmelo\na. César Vallejo   b. Ciro Alegría   c. Abraham Valdelomar   d. Mario Vargas Llosa", "options": ["Ib, IIa, IIId, IVc", "Ia, IIb, IIIc, IVd", "Ib, IIc, IIIa, IVd", "Id, IIa, IIIb, IVc", "Ic, IIa, IIId, IVb"], "r": 0, "why": "Clasifica por género antes de emparejar: dos novelas (Alegría y Vargas Llosa), un poemario (Vallejo) y un cuento (Valdelomar). Con eso la correlación sale sola."}, {"id": "lit-4", "subject": "literatura", "level": 3, "topicId": "li-1", "text": "El poemario Trilce rompe la sintaxis, inventa palabras y altera la ortografía para expresar el dolor y la orfandad. Por estos rasgos se le considera una obra", "options": ["modernista.", "vanguardista.", "romántica.", "realista.", "costumbrista."], "r": 1, "why": "Trilce (1922) anticipa la vanguardia hispanoamericana. Cuidado con el distractor: Los heraldos negros, del mismo autor, sí conserva rasgos modernistas."}, {"id": "lit-5", "subject": "literatura", "level": 2, "topicId": "li-1", "text": "La generación del 50 incorporó a la narrativa peruana la migración del campo a la ciudad y la vida en las barriadas de Lima. Un autor representativo de esa generación es", "options": ["Abraham Valdelomar.", "Julio Ramón Ribeyro.", "Ricardo Palma.", "Manuel González Prada.", "José Santos Chocano."], "r": 1, "why": "Ribeyro retrató al marginado urbano en los cuentos de La palabra del mudo. Valdelomar pertenece al posmodernismo y Palma al romanticismo costumbrista del siglo XIX."}, {"id": "his-1", "subject": "historia", "level": 2, "topicId": "hi-1", "text": "Chavín de Huántar articuló un extenso territorio mediante un culto religioso común, con el felino, la serpiente y el ave de presa como imágenes centrales. Por su capacidad de unificar culturalmente pueblos distintos, Julio C. Tello la consideró", "options": ["el primer Estado militar del área andina.", "la cultura matriz de la civilización andina.", "el Horizonte Medio del mundo andino.", "la primera cultura de la costa norte.", "el origen de la metalurgia del bronce."], "r": 1, "why": "Tello sostuvo el origen amazónico de la cultura andina y llamó a Chavín su cultura matriz. Ojo con el distractor cronológico: Chavín es Horizonte Temprano; el Medio es Wari y Tiahuanaco."}, {"id": "his-2", "subject": "historia", "level": 2, "topicId": "hi-2", "text": "En 1780, en Tinta, Cusco, José Gabriel Condorcanqui inició la mayor rebelión contra el régimen colonial tras capturar al corregidor Antonio de Arriaga. El motivo inmediato de la revuelta fue", "options": ["la creación del Virreinato del Río de la Plata.", "los abusos de los corregidores, los repartos y la mita.", "la expulsión de los jesuitas del virreinato.", "la implantación del libre comercio con España.", "la derrota del ejército español en Ayacucho."], "r": 1, "why": "Las reformas borbónicas aumentaron impuestos y repartos mercantiles, y esa presión sobre la población indígena fue el detonante. El distractor más tentador es Ayacucho, que es de 1824: cuarenta años después."}, {"id": "his-3", "subject": "historia", "level": 2, "topicId": "hi-3", "text": "Durante la Guerra del Pacífico, la pérdida del monitor Huáscar en el combate de Angamos, el 8 de octubre de 1879, tuvo como consecuencia directa", "options": ["la firma del Tratado de Ancón.", "el control chileno del mar y el inicio de la campaña terrestre.", "la ocupación inmediata de la ciudad de Lima.", "el inicio de la campaña de la Breña.", "la renuncia de Mariano Ignacio Prado."], "r": 1, "why": "Sin escuadra, el Perú no pudo impedir los desembarcos chilenos. Ubica las fechas para descartar: el Tratado de Ancón es de 1883, Lima cae en 1881 y la Breña empieza después de esa caída."}, {"id": "his-4", "subject": "historia", "level": 3, "topicId": "hi-3", "text": "Ramón Castilla financió con los ingresos del guano la abolición del tributo indígena y de la esclavitud en 1854. Sin embargo, el sistema de consignaciones y el manejo de esos ingresos produjeron", "options": ["el desarrollo de una industria nacional sólida.", "una prosperidad dependiente de un solo recurso de exportación.", "la eliminación completa de la deuda externa peruana.", "el fin definitivo del caudillismo militar.", "la industrialización de la sierra central."], "r": 1, "why": "A este período se le llama «prosperidad falaz» porque el ingreso no se transformó en industria y se agotó con el guano. La deuda, lejos de desaparecer, creció con el contrato Dreyfus."}, {"id": "his-5", "subject": "historia", "level": 2, "topicId": "hi-1", "text": "Relacione cada proceso con el siglo en que ocurrió.\nI. Rebelión de Túpac Amaru II\nII. Fundación de la Universidad de San Marcos\nIII. Guerra con Chile\nIV. Gobierno de Juan Velasco Alvarado\na. Siglo XVI   b. Siglo XVIII   c. Siglo XX   d. Siglo XIX", "options": ["Ib, IIa, IIId, IVc", "Ia, IIb, IIIc, IVd", "Ib, IId, IIIa, IVc", "Id, IIa, IIIb, IVc", "Ia, IId, IIIb, IVc"], "r": 0, "why": "Pon las fechas antes de emparejar: 1780 (XVIII), 1551 (XVI), 1879 (XIX) y 1968 (XX). San Marcos, fundada en 1551, es la más antigua de América."}, {"id": "his-6", "subject": "historia", "level": 3, "topicId": "hi-4", "text": "La reforma agraria de 1969, durante el Gobierno Revolucionario de la Fuerza Armada, expropió las haciendas de la costa y la sierra y las convirtió en cooperativas. Su efecto estructural de largo plazo fue", "options": ["el fortalecimiento de la oligarquía terrateniente.", "el desmantelamiento del poder de los grandes hacendados.", "el aumento sostenido de la productividad agrícola.", "el retorno de la mano de obra a las haciendas.", "la consolidación de la agroexportación azucarera."], "r": 1, "why": "La reforma acabó con la oligarquía agraria como clase dominante, aunque la productividad no mejoró y muchas cooperativas fracasaron. La pregunta pide el efecto estructural, no el económico."}, {"id": "geg-1", "subject": "geografia", "level": 2, "topicId": "gg-1", "text": "La corriente peruana provoca el afloramiento de aguas frías cargadas de nutrientes frente a nuestro litoral. Dos consecuencias directas de este fenómeno son", "options": ["la abundante pesquería y la aridez de la costa.", "las lluvias intensas y los suelos fértiles.", "el clima tropical y la vegetación de selva baja.", "los nevados costeros y el friaje.", "la humedad amazónica y las heladas nocturnas."], "r": 0, "why": "Los nutrientes sostienen el plancton y con él la pesca. A la vez, el agua fría enfría el aire, impide que ascienda y condense, y por eso casi no llueve en la costa."}, {"id": "geg-2", "subject": "geografia", "level": 2, "topicId": "gg-2", "text": "Los ríos que nacen en la vertiente occidental de los Andes y desembocan en el Pacífico se caracterizan por ser", "options": ["caudalosos, navegables y de régimen regular.", "cortos, torrentosos y de régimen irregular.", "largos, de poca pendiente y navegables.", "endorreicos y de curso permanente.", "de gran caudal y desembocadura en el Titicaca."], "r": 1, "why": "La cordillera está cerca del mar, así que el recorrido es corto y la pendiente fuerte; y como dependen de las lluvias de verano en la sierra, su caudal varía mucho. Los de la vertiente del Amazonas sí son largos y navegables."}, {"id": "geg-3", "subject": "geografia", "level": 2, "topicId": "gg-1", "text": "Según las ocho regiones naturales de Javier Pulgar Vidal, la región ubicada entre los 4 000 y 4 800 m s. n. m., donde predominan los pastizales y el pastoreo de camélidos, es", "options": ["la Quechua.", "la Suni.", "la Puna.", "la Janca.", "la Yunga."], "r": 2, "why": "La Puna va de 4 000 a 4 800 m y concentra los grandes pastizales. Debajo está la Suni (3 500 a 4 000) y encima la Janca o Cordillera, de nieves perpetuas."}, {"id": "geg-4", "subject": "geografia", "level": 2, "topicId": "gg-2", "text": "El Huascarán, con unos 6 768 m s. n. m., es el punto más alto del Perú y se ubica en", "options": ["la Cordillera Negra, en Áncash.", "la Cordillera Blanca, en Áncash.", "la Cordillera Volcánica, en Arequipa.", "la Cordillera de Carabaya, en Puno.", "la Cordillera de Huanzo, en Ayacucho."], "r": 1, "why": "La Cordillera Blanca concentra los nevados más altos del país. La Negra corre paralela al occidente y, como su nombre indica, carece de nieves permanentes."}, {"id": "eco-1", "subject": "economia", "level": 2, "topicId": "ec-1", "text": "El BCRP es una entidad autónoma cuya finalidad constitucional es preservar la estabilidad monetaria. Para cumplirla, su principal instrumento de política es", "options": ["la recaudación de impuestos.", "la tasa de interés de referencia.", "la fijación del salario mínimo.", "la elaboración del presupuesto público.", "la supervisión de los bancos comerciales."], "r": 1, "why": "Con la tasa de referencia el BCRP encarece o abarata el crédito y así controla la inflación. Descarta por institución: impuestos y presupuesto son del MEF, la supervisión bancaria es de la SBS y el salario mínimo lo fija el Ejecutivo."}, {"id": "eco-2", "subject": "economia", "level": 3, "topicId": "ec-1", "text": "El IGV se aplica sobre el consumo y el vendedor lo traslada al comprador dentro del precio. Por esta característica, el IGV se clasifica como un impuesto", "options": ["directo y progresivo.", "indirecto y regresivo.", "directo y proporcional.", "indirecto y progresivo.", "directo y regresivo."], "r": 1, "why": "Es indirecto porque grava el gasto y no la renta, y regresivo porque quien gana menos destina al consumo una proporción mayor de su ingreso. El impuesto a la renta, en cambio, es directo y progresivo."}, {"id": "eco-3", "subject": "economia", "level": 2, "topicId": "ec-2", "text": "Si el precio del pollo aumenta y los consumidores empiezan a comprar más pescado, ambos bienes son", "options": ["complementarios.", "sustitutos.", "inferiores.", "de lujo.", "independientes."], "r": 1, "why": "Los sustitutos satisfacen la misma necesidad, así que la demanda de uno sube cuando sube el precio del otro. En los complementarios, como el pan y la mantequilla, pasa lo contrario."}, {"id": "eco-4", "subject": "economia", "level": 3, "topicId": "ec-2", "text": "La inflación sostenida reduce el poder de compra del dinero. En ese escenario, el grupo más perjudicado es el de", "options": ["los deudores con tasa de interés fija.", "los trabajadores con ingresos fijos.", "los exportadores.", "los propietarios de inmuebles.", "los tenedores de moneda extranjera."], "r": 1, "why": "Su sueldo nominal no cambia mientras los precios suben, así que el salario real cae. Los deudores a tasa fija salen ganando, porque devuelven dinero que vale menos que el que recibieron."}, {"id": "fil-1", "subject": "filosofia", "level": 2, "topicId": "fl-1", "text": "Daniela se pregunta si cada cultura debe definir su propia idea de lo bueno o si existe un bien válido para todos los seres humanos. Su reflexión corresponde a la disciplina filosófica denominada", "options": ["ontología.", "antropología filosófica.", "filosofía política.", "ética.", "estética."], "r": 3, "why": "La ética estudia los fundamentos de lo bueno y lo correcto. La ontología se pregunta por el ser, la antropología filosófica por qué es el hombre y la estética por lo bello."}, {"id": "fil-2", "subject": "filosofia", "level": 3, "topicId": "fl-2", "text": "Para Heráclito, nada es inerte ni dura eternamente de la misma forma, pero en el movimiento y la lucha de contrarios se encuentra la armonía del cosmos. De lo afirmado se infiere que ese flujo universal", "options": ["rebasa los límites de la razón.", "es entero, compacto y perfecto.", "no es un puro y simple devenir.", "posee un carácter perecedero.", "excluye toda forma de orden."], "r": 2, "why": "Si en el cambio hay armonía, el devenir está regido por una ley (el logos) y no es caos. «Entero, compacto y perfecto» describe el ser de Parménides, que es justamente su opuesto."}, {"id": "fil-3", "subject": "filosofia", "level": 2, "topicId": "fl-2", "text": "En algunas sociedades ser anciano y canoso simboliza sabiduría; en otras, decadencia. De acuerdo con __________, esto se debería a que __________.", "options": ["Sócrates – las costumbres son universales", "los sofistas – los valores son relativos", "Protágoras – las culturas son absolutas", "Platón – las ideas son inmutables", "Aristóteles – la virtud es un término medio"], "r": 1, "why": "Los sofistas sostuvieron el relativismo: lo bueno y lo justo dependen de cada comunidad. Sócrates defendía lo contrario. En las de doble espacio verifica que ambas partes encajen, no solo el nombre."}, {"id": "fil-4", "subject": "filosofia", "level": 2, "topicId": "fl-2", "text": "Pablo padece alcoholismo, apuesta sin control y gasta en todo aquello que le reporte placer físico. Según la naturaleza tripartita del alma en Platón, la dimensión que determina su comportamiento es", "options": ["el alma irascible.", "el alma apetitiva.", "el alma racional.", "el alma vegetativa.", "el alma sensitiva."], "r": 1, "why": "La apetitiva busca el placer y los bienes materiales; la irascible corresponde al ánimo y al coraje, y la racional al conocimiento. Vegetativa y sensitiva son de la clasificación aristotélica, no platónica."}, {"id": "fil-5", "subject": "filosofia", "level": 1, "topicId": "fl-2", "text": "Aristóteles distingue cuatro causas para explicar la existencia de todo. La que responde a la pregunta «¿para qué existe?» es la causa", "options": ["material.", "formal.", "eficiente.", "final.", "accidental."], "r": 3, "why": "Asocia cada causa a una pregunta: «de qué está hecho» (material), «qué es» (formal), «quién lo hizo» (eficiente) y «para qué» (final). Con ese cuadro no se confunden."}, {"id": "psi-1", "subject": "psicologia", "level": 2, "topicId": "ps-1", "text": "Un estudiante repite en voz alta una lista de fórmulas mientras las escribe, para no olvidarlas. Este procedimiento actúa sobre la etapa de la memoria denominada", "options": ["codificación.", "almacenamiento.", "recuperación.", "olvido.", "reconocimiento."], "r": 0, "why": "La codificación transforma la información para que ingrese al sistema, y repetir en voz alta es una estrategia de repaso propia de esa etapa. El almacenamiento la conserva y la recuperación la trae de vuelta."}, {"id": "psi-2", "subject": "psicologia", "level": 2, "topicId": "ps-1", "text": "Un adolescente cambia de estilo, de amigos y de intereses en pocos meses mientras intenta definir quién es. Según Erikson, atraviesa el conflicto entre", "options": ["confianza y desconfianza.", "autonomía y vergüenza.", "identidad y confusión de roles.", "intimidad y aislamiento.", "generatividad y estancamiento."], "r": 2, "why": "Cada etapa de Erikson tiene su conflicto y el de la adolescencia es la identidad. Intimidad corresponde a la adultez temprana y generatividad a la adultez media."}, {"id": "psi-3", "subject": "psicologia", "level": 2, "topicId": "ps-2", "text": "Un técnico recibe un bono cada vez que cierra un mantenimiento sin observaciones y, con el tiempo, esa conducta aumenta. El caso corresponde a", "options": ["castigo positivo.", "reforzamiento positivo.", "reforzamiento negativo.", "extinción.", "condicionamiento clásico."], "r": 1, "why": "Dos preguntas resuelven estos casos: ¿se agrega o se retira un estímulo?, ¿la conducta aumenta o disminuye? Aquí se agrega algo agradable y la conducta aumenta: reforzamiento positivo."}, {"id": "psi-4", "subject": "psicologia", "level": 3, "topicId": "ps-2", "text": "Al entrar a un taller oscuro una persona no distingue nada al inicio, pero luego de unos minutos ve con claridad. Este fenómeno corresponde a", "options": ["la adaptación sensorial.", "el umbral diferencial.", "la percepción subliminal.", "la constancia perceptual.", "la atención selectiva."], "r": 0, "why": "Los receptores ajustan su sensibilidad a la intensidad del estímulo. El umbral diferencial es la mínima diferencia detectable y la constancia perceptual mantiene estable lo percibido pese al cambio de condiciones."}, {"id": "civ-1", "subject": "civica", "level": 2, "topicId": "cv-1", "text": "Según el artículo 43 de la Constitución, la República del Perú es democrática, social, independiente y soberana, y su Estado es", "options": ["federal y presidencialista.", "unitario, representativo y descentralizado.", "confederado y parlamentario.", "unitario y centralizado.", "una monarquía constitucional."], "r": 1, "why": "La fórmula exacta es unitario, representativo y descentralizado. El distractor más tentador es «unitario y centralizado», que acierta la primera palabra y falla justo en la última."}, {"id": "civ-2", "subject": "civica", "level": 2, "topicId": "cv-2", "text": "Relacione cada organismo del sistema electoral con su función.\nI. JNE\nII. ONPE\nIII. RENIEC\na. Organiza y ejecuta los procesos electorales\nb. Administra justicia en materia electoral\nc. Mantiene el registro de identificación y elabora el padrón", "options": ["Ib, IIa, IIIc", "Ia, IIb, IIIc", "Ic, IIa, IIIb", "Ib, IIc, IIIa", "Ia, IIc, IIIb"], "r": 0, "why": "El JNE juzga, la ONPE organiza y el RENIEC identifica. La confusión típica es intercambiar JNE y ONPE: recuerda que la J de JNE es de justicia."}, {"id": "civ-3", "subject": "civica", "level": 3, "topicId": "cv-2", "text": "Un ciudadano considera que una municipalidad vulneró su derecho al agua potable y acude al juez para que cese la afectación. La garantía constitucional que corresponde es", "options": ["el hábeas corpus.", "la acción de amparo.", "el hábeas data.", "la acción popular.", "la acción de inconstitucionalidad."], "r": 1, "why": "El amparo protege los derechos constitucionales distintos de la libertad personal (hábeas corpus) y del acceso a la información (hábeas data). La acción popular va contra reglamentos y la de inconstitucionalidad contra leyes."}, {"id": "civ-4", "subject": "civica", "level": 2, "topicId": "cv-1", "text": "La competencia de aprobar el Presupuesto General de la República corresponde al", "options": ["Consejo de Ministros.", "Congreso de la República.", "Ministerio de Economía y Finanzas.", "Presidente de la República.", "Tribunal Constitucional."], "r": 1, "why": "Distingue tres verbos: el MEF lo formula, el Ejecutivo lo presenta y el Congreso lo aprueba mediante ley. La pregunta usa «aprobar», así que la respuesta es el Congreso."}, {"id": "civ-5", "subject": "civica", "level": 2, "topicId": "cv-1", "text": "Una empresa vierte residuos sin tratamiento en un río que abastece a una comunidad. Además de la responsabilidad ambiental, se afecta directamente el derecho constitucional", "options": ["al trabajo.", "a gozar de un ambiente equilibrado y adecuado al desarrollo de la vida.", "a la propiedad privada.", "a la libertad de empresa.", "a la identidad cultural."], "r": 1, "why": "Está en el artículo 2, inciso 22 de la Constitución. Los otros derechos existen, pero ninguno es el directamente vulnerado por contaminar el agua de la comunidad."}, {"id": "lec-4", "subject": "lectora", "level": 2, "topicId": "hv-1", "passage": "P2", "text": "El texto trata centralmente sobre", "options": ["la superioridad de la empresa sobre la escuela técnica.", "el modo en que la formación dual altera el aprendizaje técnico y el límite que arrastra.", "la lentitud del modelo tradicional de enseñanza.", "la importancia de la memoria en el aprendizaje.", "las necesidades de personal de las empresas."], "r": 1, "why": "El texto expone un cambio y después su límite: el tema central debe abarcar las dos partes. Una alternativa que recoge solo las ventajas o solo la crítica se queda a mitad de camino."}, {"id": "lec-5", "subject": "lectora", "level": 2, "topicId": "hv-1", "passage": "P2", "text": "Se infiere del texto que, en el modelo tradicional, la teoría", "options": ["era más rigurosa que en el modelo dual.", "se aprendía sin haber visto su aplicación.", "no se enseñaba a los alumnos.", "provenía directamente de las empresas.", "resultaba innecesaria para el oficio."], "r": 1, "why": "El texto dice que el alumno llegaba al trabajo con teoría que nunca había visto funcionar. Cuidado con «no se enseñaba»: exagera lo que el texto afirma, y las inferencias no exageran."}, {"id": "lec-6", "subject": "lectora", "level": 3, "topicId": "hv-1", "passage": "P2", "text": "La expresión «forma muy bien para el puesto y algo menos para el oficio» implica que el modelo dual", "options": ["prepara mejor para las tareas inmediatas que para una carrera larga.", "desconoce por completo las necesidades del técnico.", "sustituye el oficio por el empleo.", "resulta inútil a largo plazo.", "prioriza la teoría sobre la práctica."], "r": 0, "why": "El puesto es el trabajo concreto de hoy; el oficio, el dominio que dura toda la carrera. «Algo menos» marca una diferencia de grado, así que «por completo» e «inútil» se descartan por exceso."}, {"id": "alg-9", "subject": "algebra", "level": 2, "topicId": "al-4", "text": "Resuelva la inecuación x² − 5x + 6 < 0.", "options": ["⟨−∞; 2⟩", "⟨2; 3⟩", "⟨3; +∞⟩", "⟨−∞; 2⟩ ∪ ⟨3; +∞⟩", "todos los reales"], "r": 1, "why": "Halla las raíces (2 y 3) y ubícalas en la recta. Con coeficiente principal positivo y desigualdad «menor que cero», la solución queda entre las raíces."}, {"id": "alg-10", "subject": "algebra", "level": 2, "topicId": "al-4", "text": "La suma de las soluciones de |2x − 6| = 4 es", "options": ["2", "4", "5", "6", "10"], "r": 3, "why": "Todo valor absoluto abre dos casos: 2x − 6 = 4 da x = 5 y 2x − 6 = −4 da x = 1. La suma es 6. Olvidar el caso negativo es el error más común."}, {"id": "alg-11", "subject": "algebra", "level": 2, "topicId": "al-5", "text": "Halle el valor de log₂ 8 + log₃ 9.", "options": ["4", "5", "6", "11", "17"], "r": 1, "why": "Traduce cada logaritmo a la pregunta «a qué exponente elevo la base»: 2³ = 8 da 3, y 3² = 9 da 2. La suma es 5."}, {"id": "alg-12", "subject": "algebra", "level": 2, "topicId": "al-4", "text": "Si 3x + 2y = 16 y x − y = 2, halle el producto x · y.", "options": ["6", "8", "12", "16", "20"], "r": 1, "why": "De la segunda ecuación, x = y + 2. Sustituyendo: 3(y + 2) + 2y = 16, luego 5y = 10, y = 2 y x = 4. El producto es 8."}, {"id": "alg-13", "subject": "algebra", "level": 3, "topicId": "al-5", "text": "Si f(x) = 3x − 1 y g(x) = x², halle (f∘g)(2) − (g∘f)(1).", "options": ["5", "6", "7", "8", "9"], "r": 2, "why": "En f∘g se aplica primero g: f(g(2)) = f(4) = 11. En g∘f se aplica primero f: g(f(1)) = g(2) = 4. La diferencia es 7. El orden de composición no es intercambiable."}, {"id": "tri-5", "subject": "trigonometria", "level": 2, "topicId": "tr-1", "text": "Simplifique la expresión (1 − cos²x) / sen x, con sen x ≠ 0.", "options": ["cos x", "sen x", "tan x", "1", "cot x"], "r": 1, "why": "Por la identidad pitagórica, 1 − cos²x = sen²x. Al dividir entre sen x queda sen x. Reconocer esa identidad es el atajo de casi todas las simplificaciones."}, {"id": "tri-6", "subject": "trigonometria", "level": 2, "topicId": "tr-2", "text": "Si sen x = 1/2 y x pertenece al primer cuadrante, halle sen 2x.", "options": ["1/2", "√2/2", "√3/2", "1", "√3"], "r": 2, "why": "sen 2x = 2 · sen x · cos x. En el primer cuadrante, si sen x = 1/2 entonces cos x = √3/2, así que sen 2x = 2 · (1/2) · (√3/2) = √3/2."}, {"id": "tri-7", "subject": "trigonometria", "level": 3, "topicId": "tr-2", "text": "Halle la menor solución positiva de la ecuación 2 sen x − 1 = 0.", "options": ["π/6", "π/4", "π/3", "π/2", "5π/6"], "r": 0, "why": "Despeja sen x = 1/2. En una vuelta las soluciones son 30° y 150°; la menor positiva es 30°, es decir π/6."}, {"id": "tri-8", "subject": "trigonometria", "level": 3, "topicId": "tr-3", "text": "Halle el valor de arcsen(1/2) + arccos(1/2).", "options": ["π/6", "π/3", "π/2", "2π/3", "π"], "r": 2, "why": "arcsen(1/2) = π/6 y arccos(1/2) = π/3, que suman π/2. Memoriza la identidad: arcsen a + arccos a = π/2 en todo el dominio, y resuelves muchos ejercicios de la semana final sin calcular nada."}, {"id": "geo-7", "subject": "geometria", "level": 2, "topicId": "ge-1", "text": "En un triángulo rectángulo de catetos 9 y 12, la mediana relativa a la hipotenusa mide", "options": ["6", "7,5", "9", "10,5", "15"], "r": 1, "why": "Propiedad clave: la mediana a la hipotenusa mide la mitad de la hipotenusa. Con catetos 9 y 12 la hipotenusa es 15, así que la mediana es 7,5."}, {"id": "geo-8", "subject": "geometria", "level": 2, "topicId": "ge-3", "text": "El volumen de un cilindro de radio 3 y altura 10 es", "options": ["30π", "60π", "90π", "180π", "300π"], "r": 2, "why": "V = πr²h = π · 9 · 10 = 90π. El error típico es meter el diámetro en lugar del radio y cuadruplicar el resultado."}, {"id": "geo-9", "subject": "geometria", "level": 2, "topicId": "ge-2", "text": "En una circunferencia, un ángulo inscrito que subtiende un arco de 80° mide", "options": ["20°", "40°", "80°", "100°", "160°"], "r": 1, "why": "El ángulo inscrito mide la mitad del arco que subtiende; el central mide lo mismo que el arco. Confundir inscrito con central es el error más frecuente del tema."}, {"id": "ari-8", "subject": "aritmetica", "level": 2, "topicId": "ar-1", "text": "¿Cuántos divisores positivos tiene 360?", "options": ["12", "18", "20", "24", "30"], "r": 3, "why": "Descompón en primos: 360 = 2³ · 3² · 5¹. Suma 1 a cada exponente y multiplica: 4 · 3 · 2 = 24 divisores."}, {"id": "ari-9", "subject": "aritmetica", "level": 3, "topicId": "ar-3", "text": "En 40 litros de mezcla al 25 % de alcohol, ¿cuántos litros de alcohol puro se deben agregar para que la mezcla quede al 40 %?", "options": ["6", "8", "10", "12", "15"], "r": 2, "why": "Hay 10 L de alcohol. Plantea (10 + x)/(40 + x) = 0,4, de donde 0,6x = 6 y x = 10 litros. Recuerda que al agregar alcohol crecen el numerador y el denominador."}, {"id": "ari-10", "subject": "aritmetica", "level": 2, "topicId": "ar-3", "text": "Un comerciante vende un artículo en S/ 240 ganando el 20 % del precio de costo. El precio de costo es", "options": ["S/ 180", "S/ 192", "S/ 200", "S/ 216", "S/ 288"], "r": 2, "why": "El 20 % se calcula sobre el costo, así que 1,2 · PC = 240 y PC = 200. Si fuera 20 % del precio de venta el costo sería 192: siempre verifica sobre qué se aplica el porcentaje."}, {"id": "hlm-9", "subject": "hlm", "level": 3, "topicId": "hl-2", "text": "Gasté 1/3 de mi dinero en libros y 1/4 del resto en pasajes, y me quedaron S/ 90. ¿Cuánto tenía al inicio?", "options": ["S/ 120", "S/ 150", "S/ 180", "S/ 200", "S/ 240"], "r": 2, "why": "Tras los libros queda 2T/3. Los pasajes toman un cuarto de eso, o sea T/6, y sobra T/2 = 90, luego T = 180. El punto fino: la segunda fracción es del resto, no del total."}, {"id": "hlm-10", "subject": "hlm", "level": 2, "topicId": "hl-1", "text": "En una reunión de 8 personas, cada una saluda una sola vez a cada una de las demás. ¿Cuántos saludos hay en total?", "options": ["16", "28", "36", "56", "64"], "r": 1, "why": "Cada saludo involucra a dos personas, así que son combinaciones de 8 en 2: 8 · 7 / 2 = 28. Si respondes 56 estás contando cada saludo dos veces."}, {"id": "hlm-11", "subject": "hlm", "level": 2, "topicId": "hl-1", "text": "Halle el término que sigue: 3; 8; 15; 24; 35; …", "options": ["42", "45", "48", "49", "50"], "r": 2, "why": "Cada término es n(n + 2): 1·3, 2·4, 3·5, 4·6, 5·7. El siguiente es 6·8 = 48. También sale por diferencias: 5, 7, 9, 11 y luego 13, que sumado a 35 da 48."}, {"id": "hlm-12", "subject": "hlm", "level": 2, "topicId": "hl-1", "text": "Un padre tiene 40 años y su hijo, 10. ¿En cuántos años la edad del padre será el doble de la del hijo?", "options": ["10", "15", "20", "25", "30"], "r": 2, "why": "Plantea 40 + x = 2(10 + x), de donde x = 20. Verifica siempre: en 20 años tendrán 60 y 30, y 60 es el doble de 30."}, {"id": "fis-16", "subject": "fisica", "level": 3, "topicId": "fi-1", "text": "En la ecuación dimensionalmente homogénea P = A · v² + B, donde P es presión y v es velocidad, la dimensión de A es", "options": ["ML⁻³", "ML⁻¹", "MLT⁻²", "ML⁻³T⁻¹", "MT⁻²"], "r": 0, "why": "En una ecuación homogénea cada sumando tiene la dimensión del total, así que [A][v²] = [P]. Con [P] = ML⁻¹T⁻² y [v²] = L²T⁻², resulta [A] = ML⁻³, que es una densidad."}, {"id": "fis-17", "subject": "fisica", "level": 2, "topicId": "fi-1", "text": "Dos fuerzas perpendiculares de 30 N y 40 N actúan sobre un cuerpo. El módulo de la resultante es", "options": ["10 N", "35 N", "50 N", "70 N", "1 200 N"], "r": 2, "why": "Al ser perpendiculares se aplica Pitágoras: √(30² + 40²) = 50 N. Solo se suman directamente, dando 70 N, si tienen la misma dirección y sentido."}, {"id": "fis-18", "subject": "fisica", "level": 2, "topicId": "fi-2", "text": "Un auto que viaja a 20 m/s frena uniformemente y se detiene en 4 s. La distancia recorrida durante el frenado es", "options": ["20 m", "40 m", "50 m", "80 m", "100 m"], "r": 1, "why": "Con aceleración constante, la distancia es la velocidad media por el tiempo: (20 + 0)/2 × 4 = 40 m. Multiplicar 20 × 4 = 80 supondría velocidad constante, que no es el caso."}, {"id": "fis-19", "subject": "fisica", "level": 3, "topicId": "fi-3", "text": "Un bloque de 10 kg se desliza por un plano inclinado 30° sin rozamiento. Con g = 10 m/s², su aceleración es", "options": ["2,5 m/s²", "5 m/s²", "8,66 m/s²", "10 m/s²", "50 m/s²"], "r": 1, "why": "Solo la componente del peso paralela al plano acelera el bloque: a = g · sen θ = 10 · 0,5 = 5 m/s². La masa se cancela, así que el dato de 10 kg es irrelevante."}, {"id": "fis-20", "subject": "fisica", "level": 2, "topicId": "fi-4", "text": "Un cuerpo cae libremente desde 20 m de altura. Con g = 10 m/s², su velocidad al llegar al suelo es", "options": ["10 m/s", "14 m/s", "20 m/s", "40 m/s", "200 m/s"], "r": 2, "why": "Por conservación de la energía, mgh = ½mv², de donde v = √(2gh) = √400 = 20 m/s. La masa se cancela y no hace falta conocerla."}, {"id": "fis-21", "subject": "fisica", "level": 2, "topicId": "fi-5", "text": "Tres resistencias de 6 Ω cada una se conectan en serie a una fuente de 36 V. La corriente en el circuito es", "options": ["0,5 A", "2 A", "6 A", "18 A", "36 A"], "r": 1, "why": "En serie las resistencias se suman: 18 Ω. Luego I = V/R = 36/18 = 2 A, y esa misma corriente circula por las tres. En paralelo el resultado sería muy distinto."}, {"id": "qui-7", "subject": "quimica", "level": 2, "topicId": "qi-2", "text": "La configuración electrónica del átomo de sodio (Z = 11) en su estado fundamental es", "options": ["1s² 2s² 2p⁶ 3s¹", "1s² 2s² 2p⁶ 3s²", "1s² 2s² 2p⁵ 3s²", "1s² 2s² 2p⁶ 3p¹", "1s² 2s² 2p⁶ 3s² 3p¹"], "r": 0, "why": "Reparte los 11 electrones en el orden de llenado: 2, 2, 6 y queda 1 para el 3s. Ese único electrón de valencia explica por qué el sodio forma ion +1."}, {"id": "qui-8", "subject": "quimica", "level": 3, "topicId": "qi-3", "text": "En la reacción 2 H₂ + O₂ → 2 H₂O, ¿cuántos moles de agua se producen a partir de 5 moles de O₂, con hidrógeno en exceso?", "options": ["2,5", "5", "7,5", "10", "20"], "r": 3, "why": "La relación estequiométrica es 1 mol de O₂ por 2 moles de agua. Con 5 moles de O₂ e hidrógeno en exceso salen 10 moles de agua. «En exceso» significa que el O₂ es el reactivo limitante."}, {"id": "qui-9", "subject": "quimica", "level": 2, "topicId": "qi-3", "text": "¿Cuántas moléculas hay en 0,5 moles de dióxido de carbono?", "options": ["1,5 × 10²³", "3,011 × 10²³", "6,022 × 10²³", "1,2 × 10²⁴", "3,011 × 10²²"], "r": 1, "why": "Multiplica los moles por el número de Avogadro: 0,5 · 6,022 × 10²³ = 3,011 × 10²³ moléculas. Ojo con el exponente al dividir por dos: cambia la mantisa, no la potencia."}, {"id": "qui-10", "subject": "quimica", "level": 2, "topicId": "qi-2", "text": "Los elementos del grupo 17 de la tabla periódica, llamados halógenos, se caracterizan por", "options": ["tener siete electrones de valencia y alta electronegatividad.", "tener un solo electrón de valencia.", "ser gases nobles con la capa de valencia completa.", "formar iones de carga +2.", "ser metales de transición."], "r": 0, "why": "Con siete electrones de valencia les falta uno para completar el octeto, así que captan electrones con facilidad: son muy electronegativos y forman iones −1. Un solo electrón de valencia corresponde al grupo 1."}], "TOPICS": {"ar-1": "Aritmética · Operaciones, potencias y raíces", "ar-2": "Aritmética · Fracciones y decimales", "ar-3": "Aritmética · Razones, proporciones y porcentajes", "ar-4": "Aritmética · Regla de tres y magnitudes", "al-1": "Álgebra · Expresiones y productos notables", "al-2": "Álgebra · Factorización", "al-3": "Álgebra · Ecuaciones de 1er y 2do grado", "hl-1": "HLM · Ordenamientos y edades", "hl-2": "HLM · Promedios, mezclas y trabajo", "fi-1": "Física · Magnitudes y notación científica", "fi-2": "Física · MRU y MRUV", "hv-1": "Lenguaje · Comprensión lectora (15 min/día)", "ge-1": "Geometría · Ángulos, triángulos, polígonos", "ge-2": "Geometría · Circunferencia y áreas", "tr-1": "Trigonometría · Razones, identidades, ángulos", "al-4": "Álgebra · Inecuaciones y sistemas", "fi-3": "Física · Leyes de Newton", "fi-4": "Física · Trabajo, energía y potencia", "qi-1": "Química · Materia, moles y estequiometría", "hl-3": "HLM · Figuras, rutas y suficiencia", "al-5": "Álgebra · Logaritmos y funciones", "ge-3": "Geometría · Sólidos y volúmenes", "tr-2": "Trigonometría · Identidades y ecuaciones", "tr-3": "Trigonometría · Funciones inversas", "fi-5": "Física · Electricidad básica", "qi-2": "Química · Átomo y tabla periódica", "qi-3": "Química · Unidades químicas y estequiometría", "le-1": "Lenguaje · Comunicación, lenguaje y dialectos", "le-2": "Lenguaje · Acentuación y ortografía", "le-3": "Lenguaje · Gramática y oración", "li-1": "Literatura · Literatura peruana", "hi-1": "Historia · Perú prehispánico", "hi-2": "Historia · Colonia y emancipación", "hi-3": "Historia · Siglo XIX y Guerra con Chile", "hi-4": "Historia · Siglo XX peruano", "gg-1": "Geografía · Clima, mar y regiones naturales", "gg-2": "Geografía · Relieve e hidrografía", "ec-1": "Economía · Estado, dinero e impuestos", "ec-2": "Economía · Mercado, oferta y demanda", "fl-1": "Filosofía · Disciplinas filosóficas", "fl-2": "Filosofía · Filosofía antigua", "ps-1": "Psicología · Procesos cognitivos", "ps-2": "Psicología · Aprendizaje y percepción", "cv-1": "Cívica · Estado y Constitución", "cv-2": "Cívica · Organismos y garantías", "sm-1": "Simulacros · Medio simulacro cronometrado", "sm-2": "Simulacros · Exámenes anteriores UNMSM", "sm-3": "Simulacros · Cuaderno de errores al día"}}</script>
+<script>
+(function(){
+"use strict";
+var D = JSON.parse(document.getElementById("banco").textContent);
+var SUBJECT_NAMES = D.SUBJECT_NAMES, LEVEL_NAMES = D.LEVEL_NAMES, TOPICS = D.TOPICS || {},
+    MOCK_PLAN = D.MOCK_PLAN, PASSAGES = D.PASSAGES, QUESTIONS = D.QUESTIONS;
+var MOCK_MINUTES = 72, RIGHT = 20, WRONG = -1.125;
+var K_STATS="rsm-stats", K_ERR="rsm-errors", K_MOCK="rsm-mocks";
+
+function load(k,f){try{var v=localStorage.getItem(k);return v?JSON.parse(v):f}catch(e){return f}}
+function save(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+
+var S={tab:"practica",screen:"menu",mode:"practica",level:0,queue:[],i:0,picked:[],
+       checked:false,stats:load(K_STATS,{}),errors:load(K_ERR,[]),mocks:load(K_MOCK,[]),
+       deadline:0,last:null,open:null,timer:null};
+
+function esc(t){return String(t).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+function letter(i){return "ABCDE".charAt(i)}
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function bySub(s){return QUESTIONS.filter(function(q){return q.subject===s})}
+function shufOpts(q){
+  var ord=shuffle(q.options.map(function(_,k){return k}));
+  var o={};for(var p in q)o[p]=q[p];
+  o.options=ord.map(function(k){return q.options[k]});
+  o.r=ord.indexOf(q.r);return o;
+}
+function score(r,w){return Math.round((r*RIGHT+w*WRONG)*1000)/1000}
+function acc(st){return st&&st.done?Math.round(st.right/st.done*100):null}
+
+function record(topicId,ok){
+  var p=S.stats[topicId]||{done:0,right:0};
+  S.stats[topicId]={done:p.done+1,right:p.right+(ok?1:0)};
+  save(K_STATS,S.stats);
+}
+function addErr(q,chosen){
+  var prev=null,i;
+  for(i=0;i<S.errors.length;i++)if(S.errors[i].qid===q.id)prev=S.errors[i];
+  S.errors=S.errors.filter(function(e){return e.qid!==q.id});
+  S.errors.unshift({qid:q.id,subject:SUBJECT_NAMES[q.subject],text:q.text,
+    chosenText:chosen>=0?q.options[chosen]:"",correctText:q.options[q.r],
+    why:q.why,reason:prev?prev.reason:"",at:Date.now()});
+  save(K_ERR,S.errors);
+}
+
+function buildMock(){
+  var out=[];
+  Object.keys(MOCK_PLAN).forEach(function(s){
+    var pool=shuffle(bySub(s));
+    out=out.concat(pool.slice(0,Math.min(MOCK_PLAN[s],pool.length)));
+  });
+  return shuffle(out).map(shufOpts);
+}
+
+/* ---------------------------------------------------------------- vistas */
+function head(){
+  var tabs=[["practica","Práctica"],["cuaderno","Cuaderno"],["avance","Avance"]];
+  return '<header class="top"><h1>Ruta San Marcos</h1>'+
+    '<p>Área C · 100 preguntas en 3 horas. Cada acierto suma 20 puntos y cada error resta 1,125.</p>'+
+    '</header><nav>'+tabs.map(function(t){
+      return '<button data-tab="'+t[0]+'" aria-current="'+(S.tab===t[0])+'">'+t[1]+'</button>';
+    }).join("")+'</nav>';
+}
+
+function vMenu(){
+  var pend=S.errors.filter(function(e){return !e.reason.trim()}).length;
+  var h='<main>';
+  h+='<div class="note">Cada pregunta que falles entra sola al Cuaderno. Un tema se domina con 8 de 10, no con «ya lo vi».';
+  if(S.errors.length)h+='<br><b>Tienes '+S.errors.length+(S.errors.length===1?' pregunta':' preguntas')+' en el Cuaderno'+(pend?', '+pend+' sin motivo escrito':'')+'.</b>';
+  h+='</div>';
+  h+='<button class="big" data-act="mock">Medio simulacro cronometrado<small>40 preguntas en '+MOCK_MINUTES+' min, con el descuento oficial</small></button>';
+  h+='<button class="ghost" data-act="weak">Mis 15 más débiles<small>Arranca por los temas donde menos aciertas</small></button>';
+  h+='<h2 style="margin-top:26px">Practicar por curso</h2>';
+  h+='<div class="chips">';
+  [0,1,2,3].forEach(function(lv){
+    h+='<button data-lv="'+lv+'" aria-pressed="'+(S.level===lv)+'">'+(lv?LEVEL_NAMES[lv]:"Todo")+'</button>';
+  });
+  h+='</div><ul class="list">';
+  Object.keys(SUBJECT_NAMES).forEach(function(s){
+    var pool=bySub(s).filter(function(q){return !S.level||q.level===S.level});
+    if(!pool.length)return;
+    var done=0,right=0,seen={};
+    pool.forEach(function(q){if(!seen[q.topicId]){seen[q.topicId]=1;
+      var st=S.stats[q.topicId];if(st){done+=st.done;right+=st.right}}});
+    var p=done?Math.round(right/done*100):null;
+    h+='<li><button class="row" data-sub="'+s+'"><span><span class="nm">'+SUBJECT_NAMES[s]+
+       '</span><span class="sub">'+pool.length+' preguntas'+(done?' · '+right+' de '+done+' correctas':'')+
+       '</span></span>'+(p!==null?'<span class="pct" style="color:'+(p>=80?'var(--ok)':p>=50?'var(--primary)':'var(--muted)')+'">'+p+'%</span>':'')+
+       '</button></li>';
+  });
+  return h+'</ul></main>';
+}
+
+function vQuestion(){
+  var q=S.queue[S.i];if(!q)return vResult();
+  var ch=S.picked[S.i], sim=S.mode==="simulacro";
+  var h='<main><div class="topbar"><button class="link" data-act="exit">‹ Salir</button>';
+  if(sim){
+    var ms=Math.max(0,S.deadline-Date.now()),mm=Math.floor(ms/60000),ss=Math.floor(ms%60000/1000);
+    h+='<span class="clock'+(ms<300000?' hot':'')+'" id="clk">'+mm+":"+(ss<10?"0":"")+ss+'</span>';
+  }else{
+    h+='<span style="font-size:13.5px;color:var(--muted)">'+(S.i+1)+' de '+S.queue.length+'</span>';
+  }
+  h+='</div><div class="card"><div class="qhead"><span class="n">'+(S.i+1)+'</span><span>'+
+     SUBJECT_NAMES[q.subject]+' · '+LEVEL_NAMES[q.level]+'</span></div>';
+  if(q.passage)h+='<p class="passage">'+esc(PASSAGES[q.passage])+'</p>';
+  h+='<p class="stem">'+esc(q.text)+'</p><ul class="opts">';
+  q.options.forEach(function(o,k){
+    var st="";
+    if(S.checked){st=(k===q.r)?(ch===k?"right":"key"):(ch===k?"wrong":"")}
+    h+='<li><button class="opt" data-op="'+k+'"'+(ch===k?' data-on="1"':'')+
+       (st?' data-st="'+st+'"':'')+(S.checked?' disabled':'')+'>'+
+       '<span class="bub">'+letter(k)+'</span><span class="tx">'+esc(o)+'</span></button></li>';
+  });
+  h+='</ul></div>';
+  if(S.checked){
+    h+='<div class="why"><p class="t">'+(ch===q.r?'Correcta.':'Incorrecta. La clave es '+letter(q.r)+'.')+
+       '</p><p>'+esc(q.why)+'</p>'+(ch!==q.r?'<p class="saved">Guardada en el Cuaderno de errores.</p>':'')+'</div>';
+  }
+  h+='<div class="bar">';
+  if(!sim&&!S.checked){
+    h+='<button class="big" data-act="check"'+(ch===undefined?' disabled':'')+' style="text-align:center">Comprobar</button>';
+  }else{
+    if(sim&&S.i>0)h+='<button class="ghost" data-act="prev" style="width:auto;text-align:center">Anterior</button>';
+    h+='<button class="big" data-act="next" style="text-align:center">'+
+       (S.i+1<S.queue.length?'Siguiente':(sim?'Entregar examen':'Terminar'))+'</button>';
+  }
+  h+='</div>';
+  if(sim)h+='<p style="font-size:12px;color:var(--muted);margin-top:16px">Dejar en blanco no resta, pero tampoco suma. Con este descuento conviene marcar siempre.</p>';
+  return h+'</main>';
+}
+
+function vResult(){
+  var L=S.last;if(!L)return vMenu();
+  var h='<main><div class="score"><p class="lab">Simulacro terminado</p>'+
+    '<p class="big">'+L.score+'</p><p class="of">de '+L.max+' puntos posibles. El examen completo se califica sobre 2 000.</p>'+
+    '<div class="grid3"><div><b style="color:var(--ok)">'+L.right+'</b><span>correctas</span></div>'+
+    '<div><b style="color:var(--bad)">'+L.wrong+'</b><span>erradas</span></div>'+
+    '<div><b style="color:var(--muted)">'+L.blank+'</b><span>en blanco</span></div></div></div>';
+  h+='<h2>Cómo te fue por curso</h2><table><thead><tr><th>Curso</th><th class="r">Aciertos</th></tr></thead><tbody>';
+  var weak=[];
+  Object.keys(L.detail).forEach(function(s){
+    var d=L.detail[s];
+    h+='<tr><td>'+SUBJECT_NAMES[s]+'</td><td class="r">'+d.right+' de '+d.total+'</td></tr>';
+    if(d.right/d.total<0.5)weak.push(SUBJECT_NAMES[s]);
+  });
+  h+='</tbody></table>';
+  if(weak.length)h+='<p class="lead">Conviene volver primero sobre '+weak.slice(0,3).join(", ")+'.</p>';
+  if(L.wrong)h+='<div class="note">Tus '+L.wrong+' fallos ya están en el Cuaderno. <b>Escribe ahí por qué fallaste cada uno antes de seguir.</b></div>';
+  h+='<button class="big" data-act="mock" style="text-align:center">Rendir otro simulacro</button>'+
+     '<button class="ghost" data-act="exit" style="text-align:center">Volver a práctica</button>';
+  return h+'</main>';
+}
+
+function vCuaderno(){
+  var h='<main>';
+  if(!S.errors.length)return h+'<p class="empty">El cuaderno está vacío. Se llena solo: cada pregunta que falles en Práctica aparece aquí con su procedimiento.</p></main>';
+  var pend=S.errors.filter(function(e){return !e.reason.trim()}).length;
+  h+='<div class="note">'+S.errors.length+(S.errors.length===1?' pregunta':' preguntas')+' para revisar.'+
+     (pend?'<br><b>'+pend+' sin motivo escrito. Escríbelo: es el paso que hace que no se repita.</b>':'')+'</div>';
+  var groups={};
+  S.errors.forEach(function(e){(groups[e.subject]=groups[e.subject]||[]).push(e)});
+  Object.keys(groups).sort(function(a,b){return groups[b].length-groups[a].length}).forEach(function(sub){
+    h+='<h2 style="margin-top:22px">'+esc(sub)+' <span style="font-family:var(--sans);font-size:12px;color:var(--muted)">'+groups[sub].length+'</span></h2>';
+    groups[sub].forEach(function(e){
+      var op=S.open===e.qid;
+      h+='<div class="err'+(e.reason.trim()?'':' pending')+'"><button data-err="'+e.qid+'">'+
+         '<span class="qt">'+esc(e.text)+'</span>'+
+         '<span class="meta">'+(e.reason.trim()?'Con motivo escrito':'Sin motivo escrito')+'</span></button>';
+      if(op){
+        h+='<div class="body"><p class="k">Lo que marcaste</p><p>'+
+           (e.chosenText?esc(e.chosenText):'Dejaste la pregunta en blanco.')+'</p>'+
+           '<p class="k ok">Respuesta correcta</p><p class="fgtx">'+esc(e.correctText)+'</p>'+
+           '<p class="k">Procedimiento correcto</p><p>'+esc(e.why)+'</p>'+
+           '<p class="k">Por qué fallé</p>'+
+           '<textarea id="mot" rows="3" placeholder="Confundí la fórmula, no leí el dato, me apuré…">'+esc(e.reason)+'</textarea>'+
+           '<div class="mini"><button class="big" data-mot="'+e.qid+'">Guardar motivo</button>'+
+           '<button class="ghost okbtn" data-del="'+e.qid+'">Ya lo domino</button></div></div>';
+      }
+      h+='</div>';
+    });
+  });
+  return h+'</main>';
+}
+
+function vAvance(){
+  var h='<main><h2>Mi avance</h2>';
+  var ks=Object.keys(S.stats).filter(function(k){return S.stats[k].done>0});
+  if(!ks.length){h+='<p class="empty">Todavía no has resuelto preguntas. Empieza por el curso que más te cuesta.</p>'}
+  else{
+    ks.sort(function(a,b){return (S.stats[a].right/S.stats[a].done)-(S.stats[b].right/S.stats[b].done)});
+    h+='<p class="lead">Del tema más débil al más firme.</p><table><thead><tr><th>Tema</th><th class="r">Acierto</th></tr></thead><tbody>';
+    ks.forEach(function(k){var d=S.stats[k];
+      h+='<tr><td>'+esc(TOPICS[k]||k)+'</td><td class="r">'+acc(d)+' % ('+d.right+'/'+d.done+')</td></tr>'});
+    h+='</tbody></table>';
+  }
+  if(S.mocks.length){
+    h+='<h2 style="margin-top:22px">Simulacros rendidos</h2><table><thead><tr><th>Fecha</th><th class="r">Puntaje</th></tr></thead><tbody>';
+    S.mocks.slice(-10).reverse().forEach(function(m){
+      h+='<tr><td>'+new Date(m.at).toLocaleDateString("es-PE",{day:"2-digit",month:"short"})+
+         '</td><td class="r">'+m.score+' de '+m.max+'</td></tr>'});
+    h+='</tbody></table>';
+  }
+  h+='<p style="font-size:12px;color:var(--muted);margin-top:18px">Tu avance se guarda en este navegador. Si borras los datos del sitio, se pierde.</p>';
+  return h+'</main>';
+}
+
+function render(){
+  var body;
+  if(S.tab==="cuaderno")body=vCuaderno();
+  else if(S.tab==="avance")body=vAvance();
+  else body=(S.screen==="run")?vQuestion():(S.screen==="result"?vResult():vMenu());
+  document.getElementById("app").innerHTML=head()+body;
+}
+
+/* --------------------------------------------------------------- acciones */
+function startSubject(s){
+  var pool=bySub(s).filter(function(q){return !S.level||q.level===S.level});
+  S.mode="practica";S.queue=shuffle(pool.length?pool:bySub(s)).map(shufOpts);
+  S.i=0;S.picked=[];S.checked=false;S.screen="run";stopClock();render();
+}
+function startWeak(){
+  var sc=QUESTIONS.map(function(q){var st=S.stats[q.topicId];
+    return {q:q,a:st&&st.done?st.right/st.done:-1}});
+  sc.sort(function(a,b){return a.a-b.a});
+  S.mode="practica";S.queue=sc.slice(0,15).map(function(x){return shufOpts(x.q)});
+  S.i=0;S.picked=[];S.checked=false;S.screen="run";stopClock();render();
+}
+function startMock(){
+  S.mode="simulacro";S.queue=buildMock();S.i=0;S.picked=[];S.checked=false;
+  S.deadline=Date.now()+MOCK_MINUTES*60000;S.screen="run";render();startClock();
+}
+function startClock(){
+  stopClock();
+  S.timer=setInterval(function(){
+    if(S.screen!=="run"||S.mode!=="simulacro"){stopClock();return}
+    var ms=S.deadline-Date.now();
+    if(ms<=0){finish();return}
+    var el=document.getElementById("clk");
+    if(el){var mm=Math.floor(ms/60000),ss=Math.floor(ms%60000/1000);
+      el.textContent=mm+":"+(ss<10?"0":"")+ss;if(ms<300000)el.classList.add("hot")}
+  },1000);
+}
+function stopClock(){if(S.timer){clearInterval(S.timer);S.timer=null}}
+
+function finish(){
+  stopClock();
+  var right=0,wrong=0,blank=0,detail={};
+  S.queue.forEach(function(q,k){
+    var d=detail[q.subject]||{total:0,right:0};d.total++;
+    var ch=S.picked[k];
+    if(ch===undefined||ch===null){blank++}
+    else if(ch===q.r){right++;d.right++;record(q.topicId,true)}
+    else{wrong++;record(q.topicId,false);addErr(q,ch)}
+    detail[q.subject]=d;
+  });
+  S.last={at:Date.now(),right:right,wrong:wrong,blank:blank,
+          score:score(right,wrong),max:S.queue.length*RIGHT,detail:detail};
+  S.mocks.push({at:S.last.at,right:right,wrong:wrong,blank:blank,
+                score:S.last.score,max:S.last.max});
+  save(K_MOCK,S.mocks);
+  S.screen="result";render();
+}
+
+document.getElementById("app").addEventListener("click",function(ev){
+  var b=ev.target.closest("button");if(!b)return;
+  var d=b.dataset;
+  if(d.tab){S.tab=d.tab;if(d.tab!=="practica")stopClock();S.open=null;render();return}
+  if(d.lv!==undefined){S.level=parseInt(d.lv,10);render();return}
+  if(d.sub){startSubject(d.sub);return}
+  if(d.err){S.open=(S.open===d.err)?null:d.err;render();return}
+  if(d.mot){var t=document.getElementById("mot");
+    var v=t?t.value:"";
+    S.errors=S.errors.map(function(e){return e.qid===d.mot?Object.assign({},e,{reason:v}):e});
+    save(K_ERR,S.errors);S.open=null;render();return}
+  if(d.del){S.errors=S.errors.filter(function(e){return e.qid!==d.del});
+    save(K_ERR,S.errors);S.open=null;render();return}
+  if(d.op!==undefined){S.picked[S.i]=parseInt(d.op,10);render();
+    if(S.mode==="simulacro")startClock();return}
+  switch(d.act){
+    case "mock": startMock();break;
+    case "weak": startWeak();break;
+    case "check":{
+      var q=S.queue[S.i],ch=S.picked[S.i];
+      record(q.topicId,ch===q.r);
+      if(ch!==q.r)addErr(q,ch===undefined?-1:ch);
+      S.checked=true;render();break;
+    }
+    case "prev": S.i=Math.max(0,S.i-1);render();startClock();break;
+    case "next":
+      if(S.i+1<S.queue.length){S.i++;S.checked=false;render();
+        if(S.mode==="simulacro")startClock()}
+      else if(S.mode==="simulacro")finish();
+      else{S.screen="menu";render()}
+      break;
+    case "exit": stopClock();S.screen="menu";render();break;
+  }
+});
+
+render();
+})();
+</script>
+</body>
+</html>

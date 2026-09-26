@@ -1,0 +1,475 @@
+{
+ "id": "algebra",
+ "nombre": "Álgebra",
+ "version": 1,
+ "unidades": [
+  {
+   "id": "u1",
+   "titulo": "Leyes de exponentes y radicales",
+   "lecciones": [
+    {
+     "id": "u1l1",
+     "titulo": "Multiplicar y dividir bases iguales",
+     "aprende": [
+      "Una potencia a^{n} significa multiplicar la base a por sí misma n veces: 2^{3} = 2 · 2 · 2 = 8.",
+      {
+       "formula": "a^{m} · a^{n} = a^{m+n}"
+      },
+      "Al multiplicar potencias de la **misma base** juntas todas las copias de a: conservas la base y sumas los exponentes.",
+      {
+       "formula": "a^{m} ÷ a^{n} = a^{m−n}   (a ≠ 0)"
+      },
+      "Al dividir, cada copia del denominador cancela una del numerador: conservas la base y restas los exponentes.",
+      {
+       "ojo": "Solo vale con la misma base. 2^{3} · 3^{2} no se simplifica sumando exponentes: se calcula cada una, 8 · 9 = 72."
+      },
+      {
+       "ojo": "Una letra sola tiene exponente 1: x = x^{1}."
+      }
+     ],
+     "ejemplo": {
+      "enunciado": "Simplifica E = (x^{5} · x^{3}) ÷ x^{6}",
+      "pasos": [
+       "Numerador: misma base, sumas exponentes → x^{5+3} = x^{8}.",
+       "Divides entre x^{6}: restas exponentes → x^{8−6}.",
+       "Queda x^{2}."
+      ],
+      "respuesta": "E = x^{2}"
+     },
+     "practica": [
+      {
+       "p": "3^{4} · 3^{2} =",
+       "o": [
+        "3^{6}",
+        "3^{8}",
+        "9^{6}",
+        "3^{2}"
+       ],
+       "c": 0,
+       "x": "Misma base: 4 + 2 = 6. La base no se multiplica: sigue siendo 3."
+      },
+      {
+       "p": "a^{9} ÷ a^{3} =",
+       "o": [
+        "a^{6}",
+        "a^{3}",
+        "a^{12}",
+        "a^{27}"
+       ],
+       "c": 0,
+       "x": "9 − 3 = 6. Los exponentes se restan, no se dividen."
+      },
+      {
+       "p": "x^{2} · x · x^{4} =",
+       "o": [
+        "x^{7}",
+        "x^{6}",
+        "x^{8}",
+        "x^{12}"
+       ],
+       "c": 0,
+       "x": "x = x^{1}, así que 2 + 1 + 4 = 7."
+      },
+      {
+       "p": "(5^{7} · 5^{2}) ÷ 5^{6} =",
+       "o": [
+        "125",
+        "25",
+        "5",
+        "625"
+       ],
+       "c": 0,
+       "x": "7 + 2 − 6 = 3 → 5^{3} = 125."
+      },
+      {
+       "p": "2^{3} · 3^{2} =",
+       "o": [
+        "72",
+        "6^{5}",
+        "5^{5}",
+        "36"
+       ],
+       "c": 0,
+       "x": "Bases distintas: calculas cada una. 8 · 9 = 72."
+      }
+     ],
+     "generador": {
+      "id": "exp_mult",
+      "n": 3
+     },
+     "chequeo": [
+      {
+       "p": "m^{4} · m^{5} · m =",
+       "o": [
+        "m^{10}",
+        "m^{9}",
+        "m^{20}",
+        "m^{11}"
+       ],
+       "c": 0,
+       "x": "4 + 5 + 1 = 10."
+      },
+      {
+       "p": "7^{10} ÷ 7^{8} =",
+       "o": [
+        "49",
+        "7",
+        "1",
+        "14"
+       ],
+       "c": 0,
+       "x": "10 − 8 = 2 → 7^{2} = 49."
+      },
+      {
+       "p": "(x^{6} · x^{4}) ÷ (x^{3} · x^{2}) =",
+       "o": [
+        "x^{5}",
+        "x^{15}",
+        "x^{4}",
+        "x^{2}"
+       ],
+       "c": 0,
+       "x": "Arriba x^{10}, abajo x^{5}: 10 − 5 = 5."
+      },
+      {
+       "p": "(2^{4} · 2^{3}) ÷ 2^{5} =",
+       "o": [
+        "4",
+        "8",
+        "2",
+        "16"
+       ],
+       "c": 0,
+       "x": "4 + 3 − 5 = 2 → 2^{2} = 4."
+      },
+      {
+       "p": "¿Cuál es **falsa**?",
+       "o": [
+        "2^{3} · 2^{2} = 4^{5}",
+        "3^{2} · 3^{3} = 3^{5}",
+        "5^{6} ÷ 5^{2} = 5^{4}",
+        "a^{7} ÷ a = a^{6}"
+       ],
+       "c": 0,
+       "x": "La base se conserva: 2^{3} · 2^{2} = 2^{5} = 32, no 4^{5}."
+      }
+     ]
+    },
+    {
+     "id": "u1l2",
+     "titulo": "Potencia de potencia, exponente cero y negativo",
+     "aprende": [
+      {
+       "formula": "(a^{m})^{n} = a^{m·n}"
+      },
+      "Elevar una potencia a otra multiplica los exponentes: (x^{3})^{2} = x^{3} · x^{3} = x^{6}.",
+      {
+       "formula": "(a · b)^{n} = a^{n} · b^{n}"
+      },
+      "El exponente afecta a cada factor dentro del paréntesis: (2x)^{3} = 2^{3} · x^{3} = 8x^{3}.",
+      {
+       "formula": "a^{0} = 1   (a ≠ 0)"
+      },
+      "¿Por qué? a^{n} ÷ a^{n} = 1, y por la regla de la división también es a^{n−n} = a^{0}.",
+      {
+       "formula": "a^{−n} = 1 / a^{n}   (a ≠ 0)"
+      },
+      "Un exponente negativo **no** vuelve negativo al número: manda la potencia al denominador. 2^{−3} = 1/8. Con fracciones, invierte: (1/3)^{−2} = 3^{2} = 9.",
+      {
+       "ojo": "(−2)^{2} = 4, pero −2^{2} = −4: sin paréntesis el exponente solo afecta al 2."
+      },
+      {
+       "ojo": "(2^{3})^{2} = 2^{6} = 64, pero 2^{3^{2}} = 2^{9} = 512. En la torre se resuelve primero el exponente de arriba."
+      }
+     ],
+     "ejemplo": {
+      "enunciado": "Calcula E = (2^{3})^{2} · 2^{−4}",
+      "pasos": [
+       "Potencia de potencia: (2^{3})^{2} = 2^{6}.",
+       "Misma base: 2^{6} · 2^{−4} = 2^{6 + (−4)} = 2^{2}.",
+       "2^{2} = 4."
+      ],
+      "respuesta": "E = 4"
+     },
+     "practica": [
+      {
+       "p": "(x^{4})^{3} =",
+       "o": [
+        "x^{12}",
+        "x^{7}",
+        "x^{64}",
+        "x^{81}"
+       ],
+       "c": 0,
+       "x": "Se multiplican: 4 · 3 = 12."
+      },
+      {
+       "p": "5^{−2} =",
+       "o": [
+        "1/25",
+        "−25",
+        "−10",
+        "1/10"
+       ],
+       "c": 0,
+       "x": "5^{−2} = 1/5^{2} = 1/25."
+      },
+      {
+       "p": "7^{0} + 3^{0} =",
+       "o": [
+        "2",
+        "0",
+        "10",
+        "1"
+       ],
+       "c": 0,
+       "x": "Cada una vale 1: 1 + 1 = 2."
+      },
+      {
+       "p": "(2x)^{3} =",
+       "o": [
+        "8x^{3}",
+        "2x^{3}",
+        "6x^{3}",
+        "8x"
+       ],
+       "c": 0,
+       "x": "El 3 afecta al 2 y a la x: 2^{3} · x^{3} = 8x^{3}."
+      },
+      {
+       "p": "−3^{2} =",
+       "o": [
+        "−9",
+        "9",
+        "−6",
+        "6"
+       ],
+       "c": 0,
+       "x": "Sin paréntesis el exponente solo afecta al 3: −(3^{2}) = −9."
+      }
+     ],
+     "generador": {
+      "id": "exp_potpot",
+      "n": 3
+     },
+     "chequeo": [
+      {
+       "p": "(a^{2})^{5} · a^{−3} =",
+       "o": [
+        "a^{7}",
+        "a^{4}",
+        "a^{10}",
+        "a^{13}"
+       ],
+       "c": 0,
+       "x": "(a^{2})^{5} = a^{10}; luego 10 + (−3) = 7."
+      },
+      {
+       "p": "2^{−1} + 2^{−2} =",
+       "o": [
+        "3/4",
+        "1/8",
+        "−3",
+        "1/6"
+       ],
+       "c": 0,
+       "x": "1/2 + 1/4 = 2/4 + 1/4 = 3/4."
+      },
+      {
+       "p": "(−2)^{4} =",
+       "o": [
+        "16",
+        "−16",
+        "−8",
+        "8"
+       ],
+       "c": 0,
+       "x": "Exponente par con paréntesis: el signo desaparece. (−2)(−2)(−2)(−2) = 16."
+      },
+      {
+       "p": "[(3^{2})^{3}]^{0} =",
+       "o": [
+        "1",
+        "0",
+        "3^{6}",
+        "729"
+       ],
+       "c": 0,
+       "x": "Todo lo que no es cero, elevado a 0, da 1."
+      },
+      {
+       "p": "(1/3)^{−2} =",
+       "o": [
+        "9",
+        "1/9",
+        "−9",
+        "−1/9"
+       ],
+       "c": 0,
+       "x": "El exponente negativo invierte la fracción: 3^{2} = 9."
+      }
+     ]
+    },
+    {
+     "id": "u1l3",
+     "titulo": "Radicales y exponente fraccionario",
+     "aprende": [
+      "La raíz n-ésima de a es el número que, elevado a n, da a: √9 = 3 porque 3^{2} = 9; ∛8 = 2 porque 2^{3} = 8.",
+      {
+       "formula": "raíz n-ésima de a^{m} = a^{m/n}"
+      },
+      "Todo radical se puede escribir como potencia con exponente fraccionario: el **denominador es el índice** de la raíz. √x = x^{1/2}, ∛x^{2} = x^{2/3}. Así se usan las mismas leyes de antes.",
+      "Para calcular a^{m/n}, conviene sacar primero la raíz (el número se achica) y luego elevar: 8^{2/3} = (∛8)^{2} = 2^{2} = 4.",
+      {
+       "formula": "√(a · b) = √a · √b"
+      },
+      "La raíz de una raíz multiplica los índices: √(√a) = ⁴√a, porque (a^{1/2})^{1/2} = a^{1/4}.",
+      {
+       "ojo": "La raíz de una suma NO es la suma de raíces: √(9 + 16) = √25 = 5, no 3 + 4 = 7."
+      },
+      {
+       "ojo": "En los reales, la raíz de índice par de un número negativo no existe: √(−4) no es real. ∛(−8) = −2 sí existe."
+      }
+     ],
+     "ejemplo": {
+      "enunciado": "Calcula E = 8^{2/3} + 16^{1/2}",
+      "pasos": [
+       "8^{2/3}: el 3 es la raíz → ∛8 = 2; el 2 es la potencia → 2^{2} = 4.",
+       "16^{1/2} = √16 = 4.",
+       "E = 4 + 4."
+      ],
+      "respuesta": "E = 8"
+     },
+     "practica": [
+      {
+       "p": "27^{1/3} =",
+       "o": [
+        "3",
+        "9",
+        "81",
+        "1/3"
+       ],
+       "c": 0,
+       "x": "∛27 = 3, porque 3^{3} = 27."
+      },
+      {
+       "p": "4^{3/2} =",
+       "o": [
+        "8",
+        "6",
+        "64",
+        "2"
+       ],
+       "c": 0,
+       "x": "√4 = 2 y luego 2^{3} = 8."
+      },
+      {
+       "p": "√(x^{6}), con x ≥ 0, =",
+       "o": [
+        "x^{3}",
+        "x^{4}",
+        "x^{2}",
+        "x^{12}"
+       ],
+       "c": 0,
+       "x": "x^{6/2} = x^{3}."
+      },
+      {
+       "p": "√(√16) =",
+       "o": [
+        "2",
+        "4",
+        "8",
+        "256"
+       ],
+       "c": 0,
+       "x": "√16 = 4 y √4 = 2. O directo: ⁴√16 = 2."
+      },
+      {
+       "p": "√(36 + 64) =",
+       "o": [
+        "10",
+        "14",
+        "100",
+        "48"
+       ],
+       "c": 0,
+       "x": "Primero se suma: √100 = 10. No es 6 + 8."
+      }
+     ],
+     "generador": {
+      "id": "rad_frac",
+      "n": 3
+     },
+     "chequeo": [
+      {
+       "p": "32^{2/5} =",
+       "o": [
+        "4",
+        "2",
+        "8",
+        "16"
+       ],
+       "c": 0,
+       "x": "⁵√32 = 2 y 2^{2} = 4."
+      },
+      {
+       "p": "81^{−1/2} =",
+       "o": [
+        "1/9",
+        "−9",
+        "9",
+        "−1/9"
+       ],
+       "c": 0,
+       "x": "81^{1/2} = 9, y el signo negativo lo manda al denominador: 1/9."
+      },
+      {
+       "p": "∛(x^{9} · y^{3}) =",
+       "o": [
+        "x^{3}y",
+        "x^{6}y",
+        "x^{3}y^{3}",
+        "x^{27}y^{9}"
+       ],
+       "c": 0,
+       "x": "x^{9/3} · y^{3/3} = x^{3}y."
+      },
+      {
+       "p": "√(√(√256)) =",
+       "o": [
+        "2",
+        "4",
+        "16",
+        "8"
+       ],
+       "c": 0,
+       "x": "√256 = 16, √16 = 4, √4 = 2."
+      },
+      {
+       "p": "9^{1/2} + 8^{1/3} + 16^{1/4} =",
+       "o": [
+        "7",
+        "6",
+        "8",
+        "9"
+       ],
+       "c": 0,
+       "x": "3 + 2 + 2 = 7."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u2",
+   "titulo": "Polinomios y grados",
+   "lecciones": []
+  },
+  {
+   "id": "u3",
+   "titulo": "Productos notables",
+   "lecciones": []
+  }
+ ]
+}

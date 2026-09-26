@@ -1,0 +1,305 @@
+{
+ "id": "ingles",
+ "nombre": "Inglés (lectura)",
+ "version": 1,
+ "unidades": [
+  {
+   "id": "u1",
+   "titulo": "Leer en inglés sin saberlo todo",
+   "lecciones": [
+    {
+     "id": "u1l1",
+     "titulo": "Cognados: palabras que ya conoces",
+     "aprende": [
+      "En el examen hay un texto corto en inglés con sus preguntas. No necesitas traducir palabra por palabra: necesitas captar la **idea principal** y los datos clave.",
+      "Los **cognados** son palabras parecidas en inglés y español que significan lo mismo: *important* (importante), *different* (diferente), *economy* (economía), *technology* (tecnología).",
+      "Muchos siguen patrones de terminación:",
+      {
+       "lista": [
+        "-tion → -ción: *education, information, nation*",
+        "-ty → -dad: *university, city, society*",
+        "-ly → -mente: *rapidly, finally, especially*",
+        "-ous → -oso: *famous, dangerous, numerous*",
+        "-ic → -ico: *public, economic, historic*",
+        "-ist → -ista: *artist, tourist, economist*"
+       ]
+      },
+      {
+       "ojo": "**Falsos amigos**: parecen cognados y no lo son. *actually* = en realidad (no «actualmente»); *library* = biblioteca; *realize* = darse cuenta; *embarrassed* = avergonzado; *sensible* = sensato."
+      }
+     ],
+     "ejemplo": {
+      "enunciado": "Lee: *The population of the city increased rapidly after the construction of the new university.*",
+      "pasos": [
+       "Marca los cognados: *population* (población), *city* (ciudad), *rapidly* (rápidamente), *construction* (construcción), *university* (universidad).",
+       "Lo que falta: *increased* se parece a «incrementó» → aumentó; *after* = después de; *new* = nueva.",
+       "Juntas: la población de la ciudad aumentó rápidamente después de la construcción de la nueva universidad."
+      ],
+      "respuesta": "Con cinco cognados ya tenías casi toda la oración."
+     },
+     "practica": [
+      {
+       "p": "*information* significa:",
+       "o": [
+        "información",
+        "informante",
+        "informal",
+        "formación"
+       ],
+       "c": 0,
+       "x": "-tion → -ción."
+      },
+      {
+       "p": "*society* significa:",
+       "o": [
+        "sociedad",
+        "social",
+        "socio",
+        "asociación"
+       ],
+       "c": 0,
+       "x": "-ty → -dad."
+      },
+      {
+       "p": "¿Cuál es un falso amigo?",
+       "o": [
+        "*actually*",
+        "*important*",
+        "*family*",
+        "*problem*"
+       ],
+       "c": 0,
+       "x": "*actually* = en realidad, no «actualmente»."
+      },
+      {
+       "p": "*library* significa:",
+       "o": [
+        "biblioteca",
+        "librería",
+        "libertad",
+        "libro"
+       ],
+       "c": 0,
+       "x": "Falso amigo clásico. Librería se dice *bookstore*."
+      },
+      {
+       "p": "*The famous scientist finally published the results.* ¿Qué dice?",
+       "o": [
+        "El famoso científico por fin publicó los resultados.",
+        "El científico buscó los resultados finales.",
+        "Los resultados hicieron famoso al científico.",
+        "El científico publicó resultados falsos."
+       ],
+       "c": 0,
+       "x": "*famous* = famoso, *finally* = finalmente, *published* = publicó, *results* = resultados."
+      }
+     ],
+     "chequeo": [
+      {
+       "p": "*rapidly* significa:",
+       "o": [
+        "rápidamente",
+        "rápido",
+        "rapidez",
+        "rápidos"
+       ],
+       "c": 0,
+       "x": "-ly → -mente."
+      },
+      {
+       "p": "*realize* significa:",
+       "o": [
+        "darse cuenta",
+        "realizar",
+        "reunir",
+        "relajar"
+       ],
+       "c": 0,
+       "x": "Falso amigo: *realize* = darse cuenta."
+      },
+      {
+       "p": "*economic growth* significa:",
+       "o": [
+        "crecimiento económico",
+        "gasto económico",
+        "economía grande",
+        "grupo económico"
+       ],
+       "c": 0,
+       "x": "*economic* = económico; *growth* = crecimiento. En inglés el adjetivo va antes del sustantivo."
+      },
+      {
+       "p": "*dangerous* significa:",
+       "o": [
+        "peligroso",
+        "danzante",
+        "dañado",
+        "dudoso"
+       ],
+       "c": 0,
+       "x": "-ous → -oso; *danger* = peligro."
+      },
+      {
+       "p": "*Many tourists visit the ancient city every year.* ¿Qué dice?",
+       "o": [
+        "Muchos turistas visitan la antigua ciudad cada año.",
+        "Muchos turistas viven en la ciudad antigua.",
+        "La ciudad antigua tiene pocos turistas al año.",
+        "Muchos turistas visitaron una ciudad nueva."
+       ],
+       "c": 0,
+       "x": "*visit* está en presente; *ancient* = antigua; *every year* = cada año."
+      }
+     ]
+    },
+    {
+     "id": "u1l2",
+     "titulo": "Conectores: cómo se unen las ideas",
+     "aprende": [
+      "Los conectores te dicen cómo se relacionan las ideas. En comprensión lectora valen oro: muchas preguntas preguntan justo eso.",
+      {
+       "lista": [
+        "Suma: *and, also, moreover, in addition* (y, también, además)",
+        "Contraste: *but, however, although, despite* (pero, sin embargo, aunque, a pesar de)",
+        "Causa: *because, since, due to* (porque, ya que, debido a)",
+        "Consecuencia: *so, therefore, as a result* (así que, por lo tanto, como resultado)",
+        "Ejemplo: *for example, such as* (por ejemplo, como)"
+       ]
+      },
+      {
+       "ojo": "Después de *but* o *however* suele venir la idea que el autor quiere destacar. Léela con más atención."
+      }
+     ],
+     "ejemplo": {
+      "enunciado": "*Solar energy is clean. However, it is still expensive in many countries.*",
+      "pasos": [
+       "*However* = sin embargo → hay contraste.",
+       "Primera idea: la energía solar es limpia (una ventaja).",
+       "Segunda idea: todavía es cara en muchos países (un problema)."
+      ],
+      "respuesta": "El autor presenta una ventaja y luego una limitación."
+     },
+     "practica": [
+      {
+       "p": "*therefore* expresa:",
+       "o": [
+        "consecuencia",
+        "contraste",
+        "ejemplo",
+        "suma"
+       ],
+       "c": 0,
+       "x": "*therefore* = por lo tanto."
+      },
+      {
+       "p": "*although* significa:",
+       "o": [
+        "aunque",
+        "además",
+        "porque",
+        "entonces"
+       ],
+       "c": 0,
+       "x": "Contraste: *although* = aunque."
+      },
+      {
+       "p": "*He studied a lot, ___ he passed the exam.*",
+       "o": [
+        "so",
+        "but",
+        "although",
+        "because"
+       ],
+       "c": 0,
+       "x": "Estudió mucho → como consecuencia aprobó: *so*."
+      },
+      {
+       "p": "*The river is polluted due to industrial waste.* ¿Por qué está contaminado el río?",
+       "o": [
+        "Por desechos industriales.",
+        "Por la lluvia.",
+        "Por la pesca.",
+        "El texto no lo dice."
+       ],
+       "c": 0,
+       "x": "*due to* = debido a; *industrial waste* = desechos industriales."
+      },
+      {
+       "p": "*such as* se usa para:",
+       "o": [
+        "dar ejemplos",
+        "contrastar",
+        "concluir",
+        "explicar una causa"
+       ],
+       "c": 0,
+       "x": "*such as* = como, por ejemplo."
+      }
+     ],
+     "chequeo": [
+      {
+       "p": "*moreover* significa:",
+       "o": [
+        "además",
+        "sin embargo",
+        "por lo tanto",
+        "aunque"
+       ],
+       "c": 0,
+       "x": "Suma una idea: además."
+      },
+      {
+       "p": "*because* introduce:",
+       "o": [
+        "una causa",
+        "un contraste",
+        "un ejemplo",
+        "una conclusión"
+       ],
+       "c": 0,
+       "x": "*because* = porque."
+      },
+      {
+       "p": "*Many students like math. However, some find it difficult.* ¿Qué relación hay?",
+       "o": [
+        "contraste",
+        "causa",
+        "ejemplo",
+        "suma"
+       ],
+       "c": 0,
+       "x": "*However* marca contraste."
+      },
+      {
+       "p": "*It rained all day; as a result, the match was cancelled.* ¿Qué pasó con el partido?",
+       "o": [
+        "Se canceló por la lluvia.",
+        "Se jugó bajo la lluvia.",
+        "Se adelantó.",
+        "No se sabe."
+       ],
+       "c": 0,
+       "x": "*as a result* = como resultado; *cancelled* = cancelado."
+      },
+      {
+       "p": "*Despite the cold, the climbers reached the summit.* ¿Qué dice?",
+       "o": [
+        "A pesar del frío, los escaladores llegaron a la cima.",
+        "Por el frío, no llegaron a la cima.",
+        "El frío los ayudó a llegar a la cima.",
+        "Los escaladores sintieron frío en la cima."
+       ],
+       "c": 0,
+       "x": "*despite* = a pesar de; *reached* = alcanzaron."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "u2",
+   "titulo": "Idea principal y preguntas tipo examen",
+   "lecciones": []
+  }
+ ]
+}
